@@ -1,0 +1,112 @@
+name: IFH-Survival
+version: 0.0.1
+author: AkabeX86
+main: com.akabex86.main.Main
+api-version: 1.18
+depend: [ProtocolLib]
+softdepend: [PlaceholderAPI,WorldGuard]
+
+commands:
+  hilfe:
+    permission: survival.help
+    usage: /hilfe
+    description: Standard Hilfebefehl.
+  home:
+    permission: survival.home
+    usage: /home
+    description: Home Befehl.
+  spyhome:
+    permission: survival.spyhome
+    usage: /spyhome <spieler>
+    description: Teleportiere zum home eines anderen Spielers.
+  homes:
+    permission: survival.home.list
+    usage: /homes
+    description: Listet alle Homes auf.
+  sethome:
+    permission: survival.home
+    usage: /sethome <home>
+    description: Setzt ein Home an deinem Standort.
+  delhome:
+    permission: survival.home
+    usage: /delhome <home>
+    description: Entfernt dein Home.
+  tpa:
+    permission: survival.tpa
+    usage: /tpa <spieler>
+    description: Sendet eine Teleport Anfrage.
+  tpaccept:
+    permission: survival.tpa
+    usage: /tpaccept <spieler>
+    description: Teleport Anfrage Annehmen.
+  tpdeny:
+    permission: survival.tpa
+    usage: /tpdeny <spieler>
+    description: Teleport Anfrage Ablehnen.
+  spawn:
+    permission: survival.warp
+    usage: /spawn
+    description: Teleportiert dich zum Spawn.
+  warp:
+    permission: survival.warp
+    usage: /warp <warp>
+    description: Teleportiert dich zum Warp Punkt.
+  setwarp:
+    permission: survival.warp.admin
+    usage: /setwarp <warp>
+    description: Warp Setzen.
+  delwarp:
+    permission: survival.warp.admin
+    usage: /delwarp <warp>
+    description: Warp Entfernen.
+  warps:
+    permission: survival.warp.list
+    usage: /warps
+    description: Listet alle Warps auf.
+  playerinfo:
+    aliases: [pinfo,pi,info]
+    permission: survival.mod
+    usage: /playerinfo <spieler>
+    description: Zeigt Infos zum Spieler an. (Mod Tool)
+  zone:
+    aliases: [chunk,area]
+    permission: survival.zone
+    usage: /zone <create,delete>
+    description: Hauptbefehl für das Claiming System.
+  tutorial:
+    usage: /tutorial
+    description: Befehl für das Tutorial.
+  ticket:
+    permission: survival.ticket
+    usage: /ticket
+    description: Befehl für das Ticket System.
+  unsafeenchant:
+    aliases: [enchant,enchantmore,overenchant,usenchant,usench]
+    permission: survival.enchant
+    usage: /unsafeenchant <enchantment> <level>
+    description: Verzaubert Buecher.
+  book:
+    aliases: [enchantbook,bookenchant,magicbook]
+    permission: survival.enchant
+    usage: /book <enchantment> <level>
+    description: Verzaubern ohne Limits.
+  enderchest:
+    aliases: [echest,ec]
+    permission: survival.enderchest
+    usage: /enderchest
+    description: Endertruhe oeffnen
+  invsee:
+    aliases: [invspy,inv]
+    permission: survival.invsee
+    usage: /invsee <spieler>
+    description: Spieler inventare beobachten
+  admintools:
+    aliases: [at,atools,setup]
+    permission: survival.admin
+    usage: /admintools <help>
+    description: Tools für Admins.
+  broadcast:
+    aliases: [bc,bcast]
+    permission: survival.broadcast
+    usage: /bc <message>
+    description: Survival Broadcast System.
