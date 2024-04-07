@@ -17,21 +17,21 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 public class Config {
     public static void createMainFolder(){
-        File ufile = new File ("plugins//iHS");
+        File ufile = new File ("plugins//survival");
         if(!ufile.isDirectory()){
             ufile.mkdir();
             System.out.println("[Survival] Plugin Ordner erstellt!");
         }
     }
     public static void createFolder(String name){
-        File ufile = new File ("plugins//iHS//"+name);
+        File ufile = new File ("plugins//survival//"+name);
         if(!ufile.isDirectory()){
             ufile.mkdir();
             System.out.println("[Survival] Ordner '"+name+"' erstellt!");
         }
     }
     public static void checkConfig(){
-        File file = new File("plugins//iHS//config.yml");
+        File file = new File("plugins//survival//config.yml");
         if(!file.exists()){
             try {
                 file.createNewFile();
@@ -41,7 +41,7 @@ public class Config {
         }
     }
     public static void checkFile(String fileName){
-        File file = new File("plugins//iHS//"+fileName+".yml");
+        File file = new File("plugins//survival//"+fileName+".yml");
         if(!file.exists()){
             try {
                 file.createNewFile();
@@ -64,7 +64,7 @@ public class Config {
         return filenames;
     }
     public static Set<String> getKeys(String fileName,Boolean includeHierarchy){
-        File file = new File("plugins//iHS//"+fileName+".yml");
+        File file = new File("plugins//survival//"+fileName+".yml");
         if(!file.exists()){
             Main.main.getLogger().log(Level.SEVERE,"[Survival] Fehler! Config Inhalt konnte nicht gefunden werden da diese nicht existiert!");
             return new HashSet<>();
@@ -74,7 +74,7 @@ public class Config {
         }
     }
     public static int getInteger(String fileName,String Key){
-        File file = new File("plugins//iHS//"+fileName+".yml");
+        File file = new File("plugins//survival//"+fileName+".yml");
         if(!file.exists()){
             Main.main.getLogger().log(Level.SEVERE,"[Survival] Fehler! Config Inhalt konnte nicht gefunden werden da diese nicht existiert!");
             return 0;
@@ -84,7 +84,7 @@ public class Config {
         }
     }
     public static Boolean getBoolean(String fileName,String Key){
-        File file = new File("plugins//iHS//"+fileName+".yml");
+        File file = new File("plugins//survival//"+fileName+".yml");
         if(!file.exists()){
             Main.main.getLogger().log(Level.SEVERE,"[Survival] Fehler! Config Inhalt konnte nicht gefunden werden da diese nicht existiert!");
             return null;
@@ -94,7 +94,7 @@ public class Config {
         }
     }
     public static String getString(String fileName,String Key){
-        File file = new File("plugins//iHS//"+fileName+".yml");
+        File file = new File("plugins//survival//"+fileName+".yml");
         if(!file.exists()){
             Main.main.getLogger().log(Level.SEVERE,"[Survival] Fehler! Config Inhalt konnte nicht gefunden werden da diese nicht existiert!");
             Main.main.getLogger().log(Level.SEVERE,"- method=getString&file=["+file.toString()+"] Key:["+Key+"]");
@@ -106,7 +106,7 @@ public class Config {
         }
     }
     public static List<String> getStringList(String fileName,String Key){
-        File file = new File("plugins//iHS//"+fileName+".yml");
+        File file = new File("plugins//survival//"+fileName+".yml");
         if(!file.exists()){
             Main.main.getLogger().log(Level.SEVERE,"[Survival] Fehler! Config Inhalt konnte nicht gefunden werden da diese nicht existiert!");
             return null;
@@ -125,11 +125,11 @@ public class Config {
     }
     //Setter
     public static void set(String fileName,String Key,Object Value){
-        File file = new File("plugins//iHS//"+fileName+".yml");
-        Main.main.getLogger().log(Level.INFO,"plugins//iHS//"+fileName+".yml wird gelesen...");
+        File file = new File("plugins//survival//"+fileName+".yml");
+        Main.main.getLogger().log(Level.INFO,"plugins//survival//"+fileName+".yml wird gelesen...");
         if(!file.exists()){
             Main.main.getLogger().log(Level.SEVERE,"Fehler! Config Inhalt konnte nicht gefunden werden da diese nicht existiert!");
-            Main.main.getLogger().log(Level.INFO,"plugins//iHS//"+fileName+".yml wird erstellt...");
+            Main.main.getLogger().log(Level.INFO,"plugins//survival//"+fileName+".yml wird erstellt...");
             try {
                 file.createNewFile();
             } catch (IOException e) {
@@ -146,7 +146,7 @@ public class Config {
         }
     }
     public static void delete(String fileName,String Key){
-        File file = new File("plugins//iHS//"+fileName+".yml");
+        File file = new File("plugins//survival//"+fileName+".yml");
         if(!file.exists()){
             Main.main.getLogger().log(Level.SEVERE,"[Survival] Fehler! Config Inhalt konnte nicht gefunden werden da diese nicht existiert!");
         }else{

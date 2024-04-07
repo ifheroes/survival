@@ -20,8 +20,9 @@ public class CommandZone implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String arg2, String[] args) {
         //TODO COMPLETE REFACTOR -
-        // REMOVE EDIT MODE AND ADD
-        //TODO add zone credits instead of the predefined 100 blocks squared
+        // remove edit mode and switch to a simpler, item based selection system
+        // add zone credits instead of the predefined 100 blocks squared
+
         if (sender instanceof Player){
             Player p = (Player)sender;
             int minsize = 50;
@@ -41,7 +42,7 @@ public class CommandZone implements CommandExecutor, TabCompleter {
                         p.sendMessage("§eSetze position 1 mit Linksklick und position 2 mit einen Rechtsklick");
                         p.sendMessage("§eBestaetige deine Auswahl mit 'claim' wenn du fertig bist.");
                         p.sendMessage("§eMit 'help' siehst du alle wichtigen befehle des Bearbeitungsmodus.");
-                        EditMode.addEditor(p.getName());//ADDS PLAYERS TO EDITOR
+                        EditMode.addEditor(p.getName());//ADDS PLAYERS TO EDITORS
                         return true;
                     }
                     p.sendMessage("Bitte lege einen Stick in die Hand und versuche es erneut.");
@@ -51,12 +52,10 @@ public class CommandZone implements CommandExecutor, TabCompleter {
                     return true;
                 }
                 if(args[0].equalsIgnoreCase("help")){
-                    //TODO ZEIGE ZONEN HILFE AN
                     return true;
                 }
                 return false;
             }
-            //CREATE HELP DELETE (wird spaeter geadded:MODIFY)
             return false;
         }
         return false;

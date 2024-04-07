@@ -98,7 +98,6 @@ public class PacketListeners {
                 PacketContainer packet = e.getPacket();
                 String[] completions = e.getPacket().getStringArrays().read(0);
                 //Ersetzt die Tabcompletions durch einen leeren String array.
-                // TODO blacklist
                 e.getPacket().getStringArrays().write(0, new String[]{});
             }
         });
