@@ -1,16 +1,12 @@
 package com.akabex86.listeners;
 
-import com.akabex86.utils.EditMode;
 import com.akabex86.utils.HeroProfile;
 import com.akabex86.utils.Tpa;
 import com.akabex86.utils.UuidFetcher;
 import org.bukkit.entity.Player;
-import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-
-import java.util.regex.Pattern;
 
 public class Events_Join_Leave {
     //TODO FIX PROFILE ALWAYS BEING NULL FOR SOME REASON

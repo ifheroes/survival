@@ -157,6 +157,18 @@ public class Utils {
         }
         return text;
     }
+    public static Boolean isSameLocation(Location loc1,Location loc2){
+        if (loc1 == null && loc2 == null) {
+            return true;
+        }
+        if (loc1 == null || loc2 == null) {
+            return false;
+        }
+        return loc1.getWorld().equals(loc2.getWorld()) &&
+                loc1.getBlockX() == loc2.getBlockX() &&
+                loc1.getBlockY() == loc2.getBlockY() &&
+                loc1.getBlockZ() == loc2.getBlockZ();
+    }
     public static Location stringToLocation(String str){
         String slocs[] = str.split("\\,");
         String X = slocs[0];

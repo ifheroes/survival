@@ -1,10 +1,7 @@
 package com.akabex86.listeners;
 
-import com.akabex86.main.Main;
-import com.akabex86.utils.EditMode;
 import com.akabex86.utils.Regex;
 import com.akabex86.utils.Utils;
-import com.akabex86.utils.Zone;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -12,13 +9,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-
-import java.io.Console;
-import java.util.logging.Level;
-import java.util.regex.Pattern;
 
 public class Events_Chat {
     public static void onChat(AsyncPlayerChatEvent e){
