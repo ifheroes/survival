@@ -18,9 +18,9 @@ public class UuidFetcher {
         //TODO FIX getString data
         Main.main.getLogger().log(Level.INFO,"==========================================");
         Main.main.getLogger().log(Level.INFO,"               UUID MAPPINGS              ");
-        for(String uuid:Config.getFilenames("plugins//iHS//userdata")){
+        for(String uuid:Config.getFilenames("plugins//survival//userdata")){
             if(uuid.endsWith(".yml")){
-                String uid = uuid.replaceAll(".yml","").replaceAll("plugins//iHS//userdata//","").replaceAll("plugins/iHS/userdata/","");
+                String uid = uuid.replaceAll(".yml","").replaceAll("plugins//survival//userdata//","").replaceAll("plugins/survival/userdata/","");
                 if(Config.getString("userdata//"+uid,"name")!=null){
                     //TODO MAP UUIDS AND NAMES TOGETHER.
                     String name = Config.getString("userdata//"+uid,"name");

@@ -86,7 +86,7 @@ public class Zone {
         if(ZoneCache.containsKey(playerName)){
             Cuboid c = ZoneCache.get(playerName);
             if(!Utils.isSameLocation(c.getLoc2(),pos2)){
-                c.setLoc1(pos2);
+                c.setLoc2(pos2);
                 return true;
             }
             return false;

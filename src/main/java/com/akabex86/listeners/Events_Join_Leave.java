@@ -25,7 +25,6 @@ public class Events_Join_Leave {
     }
     public static void onLeave(PlayerQuitEvent e){
         Player p = e.getPlayer();
-        if(EditMode.isEditor(p.getName())) EditMode.removeEditor(p.getName());
         //TODO TEST THIS (works so far)
         Tpa.clearSentRequests(p);
     }

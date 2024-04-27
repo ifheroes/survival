@@ -19,11 +19,14 @@ public class Events_BlockInteract {
             int blockz = e.getClickedBlock().getLocation().getBlockZ();
             Location clicked = e.getClickedBlock().getLocation();
             if(e.getAction() == Action.LEFT_CLICK_BLOCK){
-                p.sendMessage("FIRST POSITION SET! AT X"+blockx+" Z"+blockz);
-                Zone.setPos1(p,clicked);
+                if(Zone.setPos1(p,clicked)){
+                    p.sendMessage("FIRST POSITION SET! AT X"+blockx+" Z"+blockz);
+                }
             }
             if(e.getAction() == Action.RIGHT_CLICK_BLOCK){
-                p.sendMessage("SECOND POSITION SET! AT X"+blockx+" Z"+blockz);
+                if(Zone.setPos2(p,clicked)){
+                    p.sendMessage("SECOND POSITION SET! AT X"+blockx+" Z"+blockz);
+                }
             }
             e.setCancelled(true);
         }
