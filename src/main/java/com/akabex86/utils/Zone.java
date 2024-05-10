@@ -7,7 +7,6 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.checkerframework.checker.units.qual.C;
 
 import java.util.HashMap;
 import java.util.List;
@@ -30,6 +29,7 @@ public class Zone {
     }
     //EDITOR ACTIONS
     public static void create(String UUID){
+        String pname = UuidFetcher.getName(UUID);
         //TODO CHECK FOR INTERSECTIONS
         //TODO ADD FORMULA FOR ZONE CREDITS AND LIMIT ZONE AMOUNT AND SIZE TO SAID CREDITS. (1 Credit = 10 blocks^2(squared))
     }

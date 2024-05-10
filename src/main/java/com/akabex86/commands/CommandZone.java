@@ -1,6 +1,7 @@
 package com.akabex86.commands;
 
 import com.akabex86.main.Main;
+import com.akabex86.objects.Cuboid;
 import com.akabex86.utils.Zone;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -59,6 +60,12 @@ public class CommandZone implements CommandExecutor, TabCompleter {
                 if(     args[0].equalsIgnoreCase("claim")||
                         args[0].equalsIgnoreCase("erstellen"))
                 {
+                    Cuboid selection = Zone.ZoneCache.get(p.getName());
+                    if(selection.isValid()){
+                        p.sendMessage("§aRegion erstellt! (nicht wirklich aber mal so als platzhalter)");
+                        return true;
+                    }
+                    p.sendMessage("§cDu must erst eine Zone festlegen.");
                     //COMMAND FOR CREATION AFTER 2 POINTS HAVE BEEN SET
                     //TODO ERROR HANDLING LIKE INTERSECTIONS, TOO SMALL, NOT ENOUGH CREDITS, TOO LARGE
                     return true;
@@ -68,7 +75,7 @@ public class CommandZone implements CommandExecutor, TabCompleter {
                     return true;
                 }
                 if(args[0].equalsIgnoreCase("trust")){
-                    //TODO VERTRAUT SPIELER (wird im heroprofile des getrusteten spielers gespeichert um overhead zu vermeiden)
+                    //TODO remove and add general /trust command
                     return true;
                 }
                 if(args[0].equalsIgnoreCase("help")){
@@ -95,10 +102,10 @@ public class CommandZone implements CommandExecutor, TabCompleter {
             Player p = (Player)sender;
             //ARGUMENT 1
             //TODO UPDATE TAB COMPLETE
-            TabComplete.add("create");
-            TabComplete.add("edit");
+            TabComplete.add("tool");
+            TabComplete.add("claim");
+            TabComplete.add("update");
             TabComplete.add("delete");
-            TabComplete.add("trust");
         }
         return TabComplete;
     }

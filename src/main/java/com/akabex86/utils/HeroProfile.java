@@ -3,8 +3,10 @@ package com.akabex86.utils;
 import com.akabex86.main.Main;
 import org.bukkit.entity.Player;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -16,6 +18,14 @@ public class HeroProfile {
     String lastOnline;
     long playtime;
 
+    String zoneData;
+    //TODO NEW PARAMS - IMPLEMENT
+    String trusted;
+    String trustedby;
+
+    //TODOTEMP PARAMETERS - NO STORAGE NEEDED
+    String session_joinInstant;
+    long session_playTime;
     static List<HeroProfile> profiles = new ArrayList<>();
 
     HeroProfile(Player p){
@@ -52,13 +62,29 @@ public class HeroProfile {
     }
     //PROFILE GETTERS FROM ONLY CACHE
     public static HeroProfile getProfileByUUID(String uuid){
-
+        //PROFILE FOUND ...getting it based on UUID
         for(HeroProfile profile : profiles){
             if(profile.getUUID().equals(uuid)){
+                Main.main.getLogger().log(Level.INFO,"DEBUG: FOUND HEROPROFILE IN CACHE");
                 return profile;
             }
         }
-        //TODO GET FROM FILE IF NOT IN CACHE HERE
+        //TODO GET FROM FILESYSTEM IF NOT IN CACHE HERE
+        //TODO METHOD FOR FINDING AND BUILDING HEROPROFILE IN FILESYSTEM
+        //========================================================
+        if(Config.getString("userdata//"+uuid,"name")!=null){
+            //String uuid = uuid;
+            String name = Config.getString("userdata//"+uuid,"name");
+            String nick = Config.getString("userdata//"+uuid,"nick");
+            String firstJoined = Config.getString("userdata//"+uuid,"firstJoined");
+            String lastOnline = Config.getString("userdata//"+uuid,"lastOnline");
+            long playtime = Config.getLong("userdata//"+uuid,"playtime");
+
+            profiles.add(new HeroProfile(uuid,name,nick,firstJoined,lastOnline,playtime));
+            Main.main.getLogger().log(Level.INFO,"DEBUG: FOUND HEROPROFILE IN FILESYSTEM AND LOADED IT TO CACHE");
+        }
+        //========================================================
+        Main.main.getLogger().log(Level.INFO,"DEBUG: HEROPROFILE NOT FOUND");
         return null;
     }
     public static HeroProfile getProfileByName(String name){
@@ -67,11 +93,15 @@ public class HeroProfile {
                 return profile;
             }
         }
-        //TODO GET FROM FILE IF NOT IN CACHE HERE
+        //TODO GET FROM FILESYSTEM IF NOT IN CACHE HERE
+        //TODO METHOD FOR FINDING AND BUILDING HEROPROFILE IN FILESYSTEM
+        //========================================================
+        // WORK IN PROGRESS - CURRENTLY NOT SUPPORTED
+        //========================================================
         return null;
     }
     //MASTER CACHING METHOD EXECUTED AT SERVERSTART
-    //TODO EXECUTE IN onEnable METHOD (only change to this method when
+    //TODO EXECUTE IN onEnable METHOD (only change to this method when finished)
     public static void initializePlayers(){
 
     }
@@ -89,9 +119,6 @@ public class HeroProfile {
     public String getLastOnline(){
         return lastOnline;
     }
-    public long getPlaytime(){
-        return playtime;
-    }
 
     //SETTERS (Updaters)
     public boolean updateName(String newName){
@@ -104,13 +131,51 @@ public class HeroProfile {
         Config.set("userdata//"+uuid,"name", newName);
         return true;
     }
+    public boolean updateJoinTime(){
+        //TODO put stuff here, UPDATE ON JOIN
+        session_joinInstant = Instant.now().toString();
+        //DOESNT NEED SAVING TO CONFIG
+        return false;
+    }
     public boolean updateLastOnline(){
         //TODO put stuff here, UPDATE ON LEAVE
+        lastOnline = Instant.now().toString();
+        Config.set("userdata//"+uuid,"lastOnline", lastOnline);
+        return false;
+    }
+    public boolean updateSessionTime(){
+        //TODO put stuff here, UPDATE ON LEAVE
+        Instant session_start = Instant.parse(session_joinInstant);
+        Instant session_end = Instant.now();
+        Duration session_time = Duration.between(session_start,session_end);
+        long seconds = session_time.getSeconds();
+        long minutes = seconds / 60;
+        long hours = minutes / 60;
+
+        session_playTime = seconds;
         return false;
     }
     public boolean updatePlaytime(){
         //TODO put stuff here, UPDATE ON LEAVE
+        updateSessionTime();
+        playtime = playtime+session_playTime;
+
+        Config.set("userdata//"+uuid,"playtime", playtime);
         return false;
+    }
+    public String getSessionTime(){
+        updateSessionTime();
+        long seconds = session_playTime;
+        long minutes = seconds / 60;
+        long hours = minutes / 60;
+        return hours+" Hours, "+minutes+" Minutes, "+seconds+" Seconds";
+    }
+    public String getPlaytime(){
+        updateSessionTime();
+        long seconds = session_playTime+playtime;
+        long minutes = seconds / 60;
+        long hours = minutes / 60;
+        return hours+" Hours, "+minutes+" Minutes, "+seconds+" Seconds";
     }
     /*
                 FUNCTIONALITY:

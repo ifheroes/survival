@@ -24,4 +24,10 @@ public class Cuboid {
     public void setLoc2(Location loc){
         this.loc2=loc;
     }
+    public boolean isValid(){
+        if(loc1!=null&&loc2!=null){
+            return true;
+        }
+        return false;
+    }
 }

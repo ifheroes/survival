@@ -83,6 +83,16 @@ public class Config {
             return cfg.getInt(Key);
         }
     }
+    public static long getLong(String fileName,String Key){
+        File file = new File("plugins//survival//"+fileName+".yml");
+        if(!file.exists()){
+            Main.main.getLogger().log(Level.SEVERE,"[Survival] Fehler! Config Inhalt konnte nicht gefunden werden da diese nicht existiert!");
+            return 0L;
+        }else{
+            YamlConfiguration cfg = YamlConfiguration.loadConfiguration(file);
+            return cfg.getLong(Key);
+        }
+    }
     public static Boolean getBoolean(String fileName,String Key){
         File file = new File("plugins//survival//"+fileName+".yml");
         if(!file.exists()){
