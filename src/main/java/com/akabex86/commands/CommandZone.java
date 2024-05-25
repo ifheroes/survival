@@ -54,20 +54,28 @@ public class CommandZone implements CommandExecutor, TabCompleter {
                             return true;
                         }
                     }
-                    p.sendMessage("Bitte lege einen Stick in die Hand und versuche es erneut.");
+                    p.sendMessage("§cBitte lege einen Stick in die Hand und versuche es erneut.");
                     return true;
                 }
                 if(     args[0].equalsIgnoreCase("claim")||
                         args[0].equalsIgnoreCase("erstellen"))
                 {
                     Cuboid selection = Zone.ZoneCache.get(p.getName());
-                    if(selection.isValid()){
-                        p.sendMessage("§aRegion erstellt! (nicht wirklich aber mal so als platzhalter)");
-                        return true;
+                    if(selection != null){
+                        if(selection.isValid()){
+                            //TODO REGION ERSTELLEN MIT WORLDGUARD API
+                            // OWNER
+                            p.sendMessage("§aRegion erstellt! (nicht wirklich aber mal so als platzhalter)");
+                            return true;
+                        }
                     }
                     p.sendMessage("§cDu must erst eine Zone festlegen.");
                     //COMMAND FOR CREATION AFTER 2 POINTS HAVE BEEN SET
                     //TODO ERROR HANDLING LIKE INTERSECTIONS, TOO SMALL, NOT ENOUGH CREDITS, TOO LARGE
+                    return true;
+                }
+                if(args[0].equalsIgnoreCase("info")){
+                    //TODO zeigt informationen ueber eine zone an auf der
                     return true;
                 }
                 if(args[0].equalsIgnoreCase("list")){
@@ -104,7 +112,7 @@ public class CommandZone implements CommandExecutor, TabCompleter {
             //TODO UPDATE TAB COMPLETE
             TabComplete.add("tool");
             TabComplete.add("claim");
-            TabComplete.add("update");
+            TabComplete.add("info");
             TabComplete.add("delete");
         }
         return TabComplete;

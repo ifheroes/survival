@@ -97,6 +97,26 @@ public class Zone {
             return true;
         }
     }
+    public static boolean hasPos1(Player p){
+        String playerName = p.getName();
+        if(ZoneCache.containsKey(playerName)){
+            Cuboid c = ZoneCache.get(playerName);
+            if(c.getLoc1() !=null){
+                return true;
+            }
+        }
+        return false;
+    }
+    public static boolean hasPos2(Player p){
+        String playerName = p.getName();
+        if(ZoneCache.containsKey(playerName)){
+            Cuboid c = ZoneCache.get(playerName);
+            if(c.getLoc2() !=null){
+                return true;
+            }
+        }
+        return false;
+    }
     // TOOL HANDLER
     public static boolean hasTool(Player p){
         if(p.getInventory().getItemInMainHand().getType() == Material.STICK) {

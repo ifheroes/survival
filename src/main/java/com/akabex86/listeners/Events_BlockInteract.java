@@ -20,11 +20,16 @@ public class Events_BlockInteract {
             Location clicked = e.getClickedBlock().getLocation();
             if(e.getAction() == Action.LEFT_CLICK_BLOCK){
                 if(Zone.setPos1(p,clicked)){
+                    //TODO ERROR HANDLING (ADD SIZE INDICATOR IF A SECOND POS HAS ALREADY BEEN CACHED)
                     p.sendMessage("FIRST POSITION SET! AT X"+blockx+" Z"+blockz);
+                    if(Zone.hasPos2(p)){
+
+                    }
                 }
             }
             if(e.getAction() == Action.RIGHT_CLICK_BLOCK){
                 if(Zone.setPos2(p,clicked)){
+                    //TODO ERROR HANDLING (ADD SIZE INDICATOR IF A SECOND POS HAS ALREADY BEEN CACHED)
                     p.sendMessage("SECOND POSITION SET! AT X"+blockx+" Z"+blockz);
                 }
             }
