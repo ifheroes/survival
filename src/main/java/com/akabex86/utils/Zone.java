@@ -44,13 +44,13 @@ public class Zone {
         Location loc1 = selection.getLoc1();
         Location loc2 = selection.getLoc2();
         //WORLD IS VALIDATED THROUGH _mainWorld variable
-        if(exists("Zone von "+pname)){
+        if(exists("zone_"+pname)){
             //REGION ALREADY EXISTS
             return 1;
         }
         if(mainWorld != null && loc1.getWorld() == loc2.getWorld() && loc2.getWorld() == mainWorld){
             RegionManager rm = cont.get(BukkitAdapter.adapt(mainWorld));
-            ProtectedCuboidRegion reg = new ProtectedCuboidRegion("Zone von "+pname,selection.getBv1(),selection.getBv2());
+            ProtectedCuboidRegion reg = new ProtectedCuboidRegion("zone_"+pname,selection.getBv1(),selection.getBv2());
             if (rm != null) {
                 //todo DEBUG MESSAGES
                 rm.addRegion(reg);
@@ -80,7 +80,11 @@ public class Zone {
         try{
             World mainWorld = Bukkit.getServer().getWorld(_mainWorld);
             ProtectedRegion rg = WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(mainWorld)).getRegion(name);
-            return true;
+            //TODO!!! FIX REGION ALWAYS EXISTING - TEST IF METHOD BELOW WORKS!!!
+            if(rg != null){
+                return true;
+            }
+            return false;
         }catch (NoSuchElementException e){
             return false;
         }

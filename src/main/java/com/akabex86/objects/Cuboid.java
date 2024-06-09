@@ -20,10 +20,10 @@ public class Cuboid {
     }
 
     public BlockVector3 getBv1() {
-        return BlockVector3.at(loc1.getBlockX(),loc1.getBlockY(),loc1.getBlockZ());
+        return BlockVector3.at(loc1.getBlockX(),loc1.getWorld().getMaxHeight(),loc1.getBlockZ());
     }
     public BlockVector3 getBv2() {
-        return BlockVector3.at(loc2.getBlockX(),loc2.getBlockY(),loc2.getBlockZ());
+        return BlockVector3.at(loc2.getBlockX(),loc2.getWorld().getMinHeight(),loc2.getBlockZ());
     }
     //Setters
     public void setLoc1(Location loc){

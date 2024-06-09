@@ -21,10 +21,10 @@ public class Events_BlockInteract {
             if(e.getAction() == Action.LEFT_CLICK_BLOCK){
                 if(Zone.setPos1(p,clicked)){
                     if(Zone.hasPos2(p)){
-
-                        int dx = Math.abs(blockx - Zone.getPos2(p).getBlockX());
-                        int dz = Math.abs(blockz - Zone.getPos2(p).getBlockZ());
-                        int blocks = dx+dz;
+                        //TODO FLAECHENBERECHNUNG IN EIGENE KLASSE PACKEN & SELEKTION BEI FALSCHER WELT SOWIE REGIONSUEBERSCHNEIDUNGEN FEHLER MELDEN + FEHLER MELDEN BEI ZU GROSSER SELEKTION (7000 bloecke)
+                        int dx = Math.abs(blockx - Zone.getPos2(p).getBlockX())+1;
+                        int dz = Math.abs(blockz - Zone.getPos2(p).getBlockZ())+1;
+                        int blocks = dx*dz;
 
                         p.sendMessage("FIRST POSITION SET! AT X"+blockx+" Z"+blockz+" ("+blocks+")");
                     }else{
@@ -36,9 +36,9 @@ public class Events_BlockInteract {
                 if(Zone.setPos2(p,clicked)){
                     if(Zone.hasPos1(p)){
 
-                        int dx = Math.abs(blockx - Zone.getPos1(p).getBlockX());
-                        int dz = Math.abs(blockz - Zone.getPos1(p).getBlockZ());
-                        int blocks = dx+dz;
+                        int dx = Math.abs(blockx - Zone.getPos1(p).getBlockX())+1;
+                        int dz = Math.abs(blockz - Zone.getPos1(p).getBlockZ())+1;
+                        int blocks = dx*dz;
 
                         p.sendMessage("SECOND POSITION SET! AT X"+blockx+" Z"+blockz+" ("+blocks+")");
                     }else{
