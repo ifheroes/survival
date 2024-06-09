@@ -20,17 +20,30 @@ public class Events_BlockInteract {
             Location clicked = e.getClickedBlock().getLocation();
             if(e.getAction() == Action.LEFT_CLICK_BLOCK){
                 if(Zone.setPos1(p,clicked)){
-                    //TODO ERROR HANDLING (ADD SIZE INDICATOR IF A SECOND POS HAS ALREADY BEEN CACHED)
-                    p.sendMessage("FIRST POSITION SET! AT X"+blockx+" Z"+blockz);
                     if(Zone.hasPos2(p)){
 
+                        int dx = Math.abs(blockx - Zone.getPos2(p).getBlockX());
+                        int dz = Math.abs(blockz - Zone.getPos2(p).getBlockZ());
+                        int blocks = dx+dz;
+
+                        p.sendMessage("FIRST POSITION SET! AT X"+blockx+" Z"+blockz+" ("+blocks+")");
+                    }else{
+                        p.sendMessage("FIRST POSITION SET! AT X"+blockx+" Z"+blockz);
                     }
                 }
             }
             if(e.getAction() == Action.RIGHT_CLICK_BLOCK){
                 if(Zone.setPos2(p,clicked)){
-                    //TODO ERROR HANDLING (ADD SIZE INDICATOR IF A SECOND POS HAS ALREADY BEEN CACHED)
-                    p.sendMessage("SECOND POSITION SET! AT X"+blockx+" Z"+blockz);
+                    if(Zone.hasPos1(p)){
+
+                        int dx = Math.abs(blockx - Zone.getPos1(p).getBlockX());
+                        int dz = Math.abs(blockz - Zone.getPos1(p).getBlockZ());
+                        int blocks = dx+dz;
+
+                        p.sendMessage("SECOND POSITION SET! AT X"+blockx+" Z"+blockz+" ("+blocks+")");
+                    }else{
+                        p.sendMessage("SECOND POSITION SET! AT X"+blockx+" Z"+blockz);
+                    }
                 }
             }
             e.setCancelled(true);

@@ -2,6 +2,7 @@ package com.akabex86.commands;
 
 import com.akabex86.main.Main;
 import com.akabex86.objects.Cuboid;
+import com.akabex86.utils.UuidFetcher;
 import com.akabex86.utils.Zone;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -63,9 +64,28 @@ public class CommandZone implements CommandExecutor, TabCompleter {
                     Cuboid selection = Zone.ZoneCache.get(p.getName());
                     if(selection != null){
                         if(selection.isValid()){
-                            //TODO REGION ERSTELLEN MIT WORLDGUARD API
-                            // OWNER
-                            p.sendMessage("§aRegion erstellt! (nicht wirklich aber mal so als platzhalter)");
+                            //p.sendMessage("§aRegion erstellt! (nicht wirklich aber mal so als platzhalter)");
+                            int result = Zone.create(UuidFetcher.getUUID(p.getName()),selection);
+                            switch(result){
+                                case 0:
+                                    //SUCCESS
+                                    p.sendMessage("§4DEBUG §aRegion erstellt!");
+                                    break;
+                                case 1:
+                                    //REGION ALREADY EXISTS
+                                    p.sendMessage("§4DEBUG §cRegion existiert bereits!");
+                                    break;
+                                case 2:
+                                    //REGION MANAGER NOT FOUND
+                                    break;
+                                case 3:
+                                    //LOCATION DATA NOT FOUND
+                                    break;
+                                default:
+                                    //UNKNOWN ERROR
+                                    break;
+                            }
+
                             return true;
                         }
                     }

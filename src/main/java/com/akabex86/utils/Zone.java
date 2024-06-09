@@ -2,36 +2,69 @@ package com.akabex86.utils;
 
 import com.akabex86.main.Main;
 import com.akabex86.objects.Cuboid;
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import com.sk89q.worldguard.WorldGuard;
+import com.sk89q.worldguard.domains.DefaultDomain;
+import com.sk89q.worldguard.protection.managers.RegionManager;
+import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
+import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import com.sk89q.worldguard.protection.regions.RegionContainer;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.HashMap;
-import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.logging.Level;
 
 public class Zone {
     public static HashMap<String, Cuboid> ZoneCache = new HashMap();
+
+    //TODO USE WORLD FROM INSTEAD OF USING INDEX 0
+    public static String _mainWorld="world";
     Zone() {
         Main.main.getLogger().log(Level.INFO,"[ZONE] zone class initialized.");
     }
     //THE ZONE SYSTEM IS TESTED SEPERATELY.
     //GENERAL STATEMENTS
     public static boolean isWithinZone(String UUID){
-        //TODO BUILD ZONE DETECTOR (detects if a player is within a zone)
+        //TODO BUILD ZONE DETECTOR (detects if a player is within a zone - low priority)
         return false;
     }
-    public static List<String> getTrusted(){
-        // gets all trusted members of a zone
-        return null;
-    }
-    //EDITOR ACTIONS
-    public static void create(String UUID){
+
+    public static int create(String UUID, Cuboid selection){
         String pname = UuidFetcher.getName(UUID);
-        //TODO CHECK FOR INTERSECTIONS
-        //TODO ADD FORMULA FOR ZONE CREDITS AND LIMIT ZONE AMOUNT AND SIZE TO SAID CREDITS. (1 Credit = 10 blocks^2(squared))
+        RegionContainer cont = WorldGuard.getInstance().getPlatform().getRegionContainer();
+
+        World mainWorld = Bukkit.getServer().getWorld(_mainWorld);
+        Location loc1 = selection.getLoc1();
+        Location loc2 = selection.getLoc2();
+        //WORLD IS VALIDATED THROUGH _mainWorld variable
+        if(exists("Zone von "+pname)){
+            //REGION ALREADY EXISTS
+            return 1;
+        }
+        if(mainWorld != null && loc1.getWorld() == loc2.getWorld() && loc2.getWorld() == mainWorld){
+            RegionManager rm = cont.get(BukkitAdapter.adapt(mainWorld));
+            ProtectedCuboidRegion reg = new ProtectedCuboidRegion("Zone von "+pname,selection.getBv1(),selection.getBv2());
+            if (rm != null) {
+                //todo DEBUG MESSAGES
+                rm.addRegion(reg);
+                DefaultDomain owner = new DefaultDomain();
+                owner.addPlayer(pname);
+                reg.setOwners(owner);
+                //REGION CREATED
+                return 0;
+            }
+            //REGION MANAGER IS NULL
+            return 2;
+        }
+        //INVALID LOCATION DATA
+        return 3;
     }
     public static void update(String UUID){
         //TODO CHECK FOR INTERSECTIONS
@@ -42,23 +75,43 @@ public class Zone {
         return false;
     }
     //SEPERATE ACTIONS
-    public static boolean trust(String OwnerUUID,String TargetUUID){
-        //TODO ADD 'TARGET' TO ALL ZONES OWNED BY 'OWNER'.
-        //THIS NEEDS TO BE EXECUTED EVERYTIME 'OWNER' CREATES A NEW ZONE (TRUSTED USERS ARE CHECKED FROM THE HEROPROFILE) AND WHEN EXECUTING THE COMMAND
-        //ADDS USER TO THE TRUSTED LIST INSIDE THE HERO PROFILE
-        return false;
+    public static boolean exists(String name){
+        //TODO CHECK IF WORLDGUARD REGION WITH THE NAME EXISTS
+        try{
+            World mainWorld = Bukkit.getServer().getWorld(_mainWorld);
+            ProtectedRegion rg = WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(mainWorld)).getRegion(name);
+            return true;
+        }catch (NoSuchElementException e){
+            return false;
+        }
     }
-    public static boolean untrust(String OwnerUUID,String TargetUUID){
-        //TODO REMOVE 'TARGET' FROM ALL ZONES OWNED BY 'OWNER'.
-        //THIS ONLY NEEDS TO BE EXECUTED WHEN EXECUTING THE COMMAND
-        //REMOVES USER FROM THE TRUSTED LIST INSIDE THE HERO PROFILE
+    public static boolean intersectsWith(Cuboid selection, Cuboid target){
+        //TODO CHECK IF WORLDGUARD REGION INTERSECTS WITH THE TARGET
         return false;
     }
 
-    // POSITION HANDLER
-    // returns true if a new position has been set.
+
     //TODO
     // advanced error handling in update and create command(intersecting regions, too small, too large)
+    //POSITION HANDLERS
+    //GETTERS
+    public static Location getPos1(Player p){
+        String playerName = p.getName();
+        if(ZoneCache.containsKey(playerName)){
+            Cuboid c = ZoneCache.get(playerName);
+            return c.getLoc1();
+        }
+        return null;
+    }
+    public static Location getPos2(Player p){
+        String playerName = p.getName();
+        if(ZoneCache.containsKey(playerName)){
+            Cuboid c = ZoneCache.get(playerName);
+            return c.getLoc2();
+        }
+        return null;
+    }
+    //SETTERS return true if positions have been updated
     public static boolean setPos1(Player p, Location pos1){
         if (p == null || pos1 == null) {
             return false;
