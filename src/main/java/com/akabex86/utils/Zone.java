@@ -48,6 +48,10 @@ public class Zone {
             //REGION ALREADY EXISTS
             return 1;
         }
+        if(selection.getBlocks_2D() > 7000){
+            //SELECTION TOO LARGE
+            return 4;
+        }
         if(mainWorld != null && loc1.getWorld() == loc2.getWorld() && loc2.getWorld() == mainWorld){
             RegionManager rm = cont.get(BukkitAdapter.adapt(mainWorld));
             ProtectedCuboidRegion reg = new ProtectedCuboidRegion("zone_"+pname,selection.getBv1(),selection.getBv2());

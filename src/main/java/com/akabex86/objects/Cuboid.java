@@ -1,5 +1,6 @@
 package com.akabex86.objects;
 
+import com.akabex86.utils.Zone;
 import com.sk89q.worldedit.math.BlockVector3;
 import org.bukkit.Location;
 
@@ -24,6 +25,17 @@ public class Cuboid {
     }
     public BlockVector3 getBv2() {
         return BlockVector3.at(loc2.getBlockX(),loc2.getWorld().getMinHeight(),loc2.getBlockZ());
+    }
+    public int getBlocks_2D(){
+        int dx = Math.abs(loc1.getBlockX() - loc2.getBlockX())+1;
+        int dz = Math.abs(loc1.getBlockZ() - loc2.getBlockZ())+1;
+        return dx*dz;
+    }
+    public int getBlocks_3D(){ //UNTESTED!!!
+        int dx = Math.abs(loc1.getBlockX() - loc2.getBlockX())+1;
+        int dy = Math.abs(loc1.getBlockY() - loc2.getBlockY())+1;
+        int dz = Math.abs(loc1.getBlockZ() - loc2.getBlockZ())+1;
+        return dx*dy*dz;
     }
     //Setters
     public void setLoc1(Location loc){

@@ -77,12 +77,19 @@ public class CommandZone implements CommandExecutor, TabCompleter {
                                     break;
                                 case 2:
                                     //REGION MANAGER NOT FOUND
+                                    p.sendMessage("§4DEBUG §cRegionsmanager nicht gefunden!");
                                     break;
                                 case 3:
                                     //LOCATION DATA NOT FOUND
+                                    p.sendMessage("§4DEBUG §cFehlerhafte Position!");
+                                    break;
+                                case 4:
+                                    //LOCATION DATA NOT FOUND
+                                    p.sendMessage("§4DEBUG §cAuswahl zu groß! (Max.7000)");
                                     break;
                                 default:
                                     //UNKNOWN ERROR
+                                    p.sendMessage("§4DEBUG §cUnbekannter Fehler!");
                                     break;
                             }
 
