@@ -21,7 +21,7 @@ public class Events_BlockInteract {
             if(e.getAction() == Action.LEFT_CLICK_BLOCK){
                 if(Zone.setPos1(p,clicked)){
                     if(Zone.hasPos2(p)){
-                        //TODO BEI REGIONSUEBERSCHNEIDUNGEN FEHLER MELDEN
+                        //TODO BEI REGIONSUEBERSCHNEIDUNGEN FEHLER MELDEN & LOCAL VISUALIZER DER LAEUFT WENN MAN DEN ZAUBERSTAB IN DER HAND HAT
 
                         int blocks = Zone.ZoneCache.get(p.getName()).getBlocks_2D();
 
@@ -38,7 +38,7 @@ public class Events_BlockInteract {
             if(e.getAction() == Action.RIGHT_CLICK_BLOCK){
                 if(Zone.setPos2(p,clicked)){
                     if(Zone.hasPos1(p)){
-                        //TODO BEI REGIONSUEBERSCHNEIDUNGEN FEHLER MELDEN
+                        //TODO BEI REGIONSUEBERSCHNEIDUNGEN FEHLER MELDEN & LOCAL VISUALIZER
 
                         int blocks = Zone.ZoneCache.get(p.getName()).getBlocks_2D();
 

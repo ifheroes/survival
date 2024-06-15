@@ -4,11 +4,14 @@ import com.akabex86.main.Main;
 import com.akabex86.objects.Cuboid;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.WorldGuard;
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.domains.DefaultDomain;
+import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
+import com.sk89q.worldguard.protection.regions.RegionQuery;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -17,7 +20,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.logging.Level;
 
@@ -28,6 +33,7 @@ public class Zone {
     public static String _mainWorld="world";
     Zone() {
         Main.main.getLogger().log(Level.INFO,"[ZONE] zone class initialized.");
+
     }
     //THE ZONE SYSTEM IS TESTED SEPERATELY.
     //GENERAL STATEMENTS
@@ -56,8 +62,12 @@ public class Zone {
             RegionManager rm = cont.get(BukkitAdapter.adapt(mainWorld));
             ProtectedCuboidRegion reg = new ProtectedCuboidRegion("zone_"+pname,selection.getBv1(),selection.getBv2());
             if (rm != null) {
-                //todo DEBUG MESSAGES
                 rm.addRegion(reg);
+                if(isIntersecting(rm,reg)){
+                    //THIS REMOVES THE REGION IF IT INTERSECTS WITH ANOTHER ONE
+                    rm.removeRegion(reg.getId());
+                    return 5;
+                }
                 DefaultDomain owner = new DefaultDomain();
                 owner.addPlayer(pname);
                 reg.setOwners(owner);
@@ -84,7 +94,7 @@ public class Zone {
         try{
             World mainWorld = Bukkit.getServer().getWorld(_mainWorld);
             ProtectedRegion rg = WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(mainWorld)).getRegion(name);
-            //TODO!!! FIX REGION ALWAYS EXISTING - TEST IF METHOD BELOW WORKS!!!
+
             if(rg != null){
                 return true;
             }
@@ -93,8 +103,32 @@ public class Zone {
             return false;
         }
     }
-    public static boolean intersectsWith(Cuboid selection, Cuboid target){
-        //TODO CHECK IF WORLDGUARD REGION INTERSECTS WITH THE TARGET
+    public static boolean isIntersecting(RegionManager rm,ProtectedRegion reg){
+
+        List<ProtectedRegion> reglist = new ArrayList<ProtectedRegion>(rm.getRegions().values());
+        List<ProtectedRegion> overlappingRegions = reg.getIntersectingRegions(reglist);
+
+        if(overlappingRegions.size() > 1){//INFO THIS IS NOT 0 BECAUSE overlappingRegions CONTAINS reg!
+            Main.main.getLogger().log(Level.INFO,"DEBUG - REGIONS FOUND: "+overlappingRegions.size());
+            for(ProtectedRegion ovl:overlappingRegions){
+                Main.main.getLogger().log(Level.INFO,"REGION="+ovl.getId());
+            }
+            return true;
+        }
+        return false;
+    }
+    public static boolean isOwner(Location loc, Player p){
+        //TODO does this exclude __global__?
+        RegionContainer cont = WorldGuard.getInstance().getPlatform().getRegionContainer();
+        RegionQuery q = cont.createQuery();
+        ApplicableRegionSet regions = q.getApplicableRegions(BukkitAdapter.adapt(loc));
+        if(regions.getRegions().size() == 1){
+            if(regions.isOwnerOfAll(WorldGuardPlugin.inst().wrapPlayer(p))){
+                //TODO REMOVE DEBUGGER
+                Main.main.getLogger().log(Level.INFO," "+p.getName()+" IS OWNER OF REGION @ "+loc.toString());
+                return true;
+            }
+        }
         return false;
     }
 

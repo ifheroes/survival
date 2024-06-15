@@ -12,6 +12,10 @@ public class Cuboid {
         this.loc1=null;
         this.loc2=null;
     }
+    public Cuboid(Location loc1,Location loc2){
+        this.loc1=loc1;
+        this.loc2=loc2;
+    }
     //Getters
     public Location getLoc1(){
         return loc1;
