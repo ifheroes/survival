@@ -85,17 +85,25 @@ public class Zone {
         //INVALID LOCATION DATA
         return 3;
     }
-    public static void update(String UUID){
-        //TODO CHECK FOR INTERSECTIONS
-        //TODO ADD FORMULA FOR ZONE CREDITS AND LIMIT ZONE AMOUNT AND SIZE TO SAID CREDITS. (1 Credit = 10 blocks^2(squared))
-    }
-    public static boolean delete(String UUID){
-        //TODO CHECK FOR INTERSECTIONS
-        return false;
+    public static boolean delete(String name){
+        //TODO CHECK IF WORLDGUARD REGION WITH THE NAME EXISTS
+        try{
+            World mainWorld = Bukkit.getServer().getWorld(_mainWorld);
+            RegionManager rm = WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(mainWorld));
+            ProtectedRegion rg = rm.getRegion(name);
+
+            if(rg != null){
+                rm.removeRegion(name);
+                return true;
+            }
+            return false;
+        }catch (NoSuchElementException e){
+            return false;
+        }
     }
     //SEPERATE ACTIONS
     public static boolean exists(String name){
-        //TODO CHECK IF WORLDGUARD REGION WITH THE NAME EXISTS
+        //CHECKS IF WORLDGUARD REGION WITH THE NAME EXISTS
         try{
             World mainWorld = Bukkit.getServer().getWorld(_mainWorld);
             ProtectedRegion rg = WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(mainWorld)).getRegion(name);

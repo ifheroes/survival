@@ -108,7 +108,6 @@ public class CommandZone implements CommandExecutor, TabCompleter {
                                     //UNKNOWN ERROR
                                         p.sendMessage("§cUnbekannter Fehler!");
                             }
-
                             return true;
                         }
                     }
@@ -116,15 +115,53 @@ public class CommandZone implements CommandExecutor, TabCompleter {
                     return true;
                 }
                 if(args[0].equalsIgnoreCase("update")){
-                    //TODO SHOW INFO ABOUT THE ZONE A PLAYER IS CURRENTLY STANDING ON
+                    Cuboid selection = Zone.ZoneCache.get(p.getName());
+                    if(selection != null){
+                        if(selection.isValid()){
+                            //TODO ERROR HANDLING - IMPLEMENT ZONE CREDITS
+                            //ZONE CREATOR
+                            int result = Zone.create(UuidFetcher.getUUID(p.getName()),selection);
+                            switch (result) {
+                                case 0 ->
+                                    //SUCCESS
+                                        p.sendMessage("§aZone erstellt!");
+                                case 1 -> {
+                                    //REGION ALREADY EXISTS
+                                    p.sendMessage("§cZone konnte nicht entfernt werden!");
+                                }
+                                case 2 ->
+                                    //REGION MANAGER NOT FOUND
+                                        p.sendMessage("§cZonenmanager nicht gefunden!");
+                                case 3 ->
+                                    //LOCATION DATA NOT FOUND
+                                        p.sendMessage("§cFehlerhafte Positionsdaten!");
+                                case 4 ->
+                                    //SELECTION TOO LARGE
+                                        p.sendMessage("§cAuswahl zu groß! (Max.7000)");
+                                case 5 ->
+                                    //SELECTION TOO SMALL
+                                        p.sendMessage("§cAuswahl zu klein! (Min.10x10)");
+                                case 6 ->
+                                    //ZONE INTERSECTION
+                                        p.sendMessage("§cZone überschneidet sich mit einer oder mehreren anderen Zonen.");
+                                default ->
+                                    //UNKNOWN ERROR
+                                        p.sendMessage("§cUnbekannter Fehler!");
+                            }
+                            return true;
+                        }
+                    }
+                    p.sendMessage("§cDu must erst eine Zone festlegen.");
                     return true;
                 }
                 if(args[0].equalsIgnoreCase("delete")){
                     //DELETES THE ZONE A PLAYER IS CURRENTLY STANDING ON
                     //TODO ADD SECOND ARG FOR MULTIPLE ZONES
-                    if(Zone.delete(UuidFetcher.getUUID(p.getName()))){
+                    if(Zone.delete("zone_"+UuidFetcher.getUUID(p.getName()))){
                         p.sendMessage("§cZone gelöscht");
+                        return true;
                     }
+                    p.sendMessage("§cDie Zone gehört dir nicht oder es konnte keine Zone gefunden werden.");
                     return true;
                 }
                 if(args[0].equalsIgnoreCase("info")){
