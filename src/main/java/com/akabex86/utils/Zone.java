@@ -49,14 +49,19 @@ public class Zone {
         World mainWorld = Bukkit.getServer().getWorld(_mainWorld);
         Location loc1 = selection.getLoc1();
         Location loc2 = selection.getLoc2();
-        //WORLD IS VALIDATED THROUGH _mainWorld variable
+        //THE RIGHT WORLD IS DETERMINED BY THE _mainWorld variable
         if(exists("zone_"+pname)){
-            //REGION ALREADY EXISTS
+            //ZONE ALREADY EXISTS
+            //TODO MODIFY THIS IN THE FUTURE TO REMOVE THE ZONE AMOUNT LIMIT
             return 1;
         }
         if(selection.getBlocks_2D() > 7000){
             //SELECTION TOO LARGE
             return 4;
+        }
+        if(selection.getLength_X() < 10||selection.getLength_Z() < 10){
+            //SELECTION TOO SMALL
+            return 5;
         }
         if(mainWorld != null && loc1.getWorld() == loc2.getWorld() && loc2.getWorld() == mainWorld){
             RegionManager rm = cont.get(BukkitAdapter.adapt(mainWorld));
@@ -64,9 +69,9 @@ public class Zone {
             if (rm != null) {
                 rm.addRegion(reg);
                 if(isIntersecting(rm,reg)){
-                    //THIS REMOVES THE REGION IF IT INTERSECTS WITH ANOTHER ONE
+                    //THIS REMOVES THE REGION AGAIN IF IT INTERSECTS WITH ANOTHER ONE
                     rm.removeRegion(reg.getId());
-                    return 5;
+                    return 6;
                 }
                 DefaultDomain owner = new DefaultDomain();
                 owner.addPlayer(pname);

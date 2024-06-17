@@ -18,10 +18,14 @@ public class Events_BlockInteract {
             int blockx = e.getClickedBlock().getLocation().getBlockX();
             int blockz = e.getClickedBlock().getLocation().getBlockZ();
             Location clicked = e.getClickedBlock().getLocation();
+            if(clicked.getWorld().getName().equalsIgnoreCase(Zone._mainWorld)){
+                return; //TODO check: does this work?
+            }
             if(e.getAction() == Action.LEFT_CLICK_BLOCK){
                 if(Zone.setPos1(p,clicked)){
                     if(Zone.hasPos2(p)){
                         //TODO BEI REGIONSUEBERSCHNEIDUNGEN FEHLER MELDEN & LOCAL VISUALIZER DER LAEUFT WENN MAN DEN ZAUBERSTAB IN DER HAND HAT
+                        // - MINDEST GROESSE 10x10 BLOECKE!!!
 
                         int blocks = Zone.ZoneCache.get(p.getName()).getBlocks_2D();
 
@@ -38,8 +42,6 @@ public class Events_BlockInteract {
             if(e.getAction() == Action.RIGHT_CLICK_BLOCK){
                 if(Zone.setPos2(p,clicked)){
                     if(Zone.hasPos1(p)){
-                        //TODO BEI REGIONSUEBERSCHNEIDUNGEN FEHLER MELDEN & LOCAL VISUALIZER
-
                         int blocks = Zone.ZoneCache.get(p.getName()).getBlocks_2D();
 
                         if(blocks <= 7000){

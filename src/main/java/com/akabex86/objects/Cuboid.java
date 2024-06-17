@@ -35,6 +35,12 @@ public class Cuboid {
         int dz = Math.abs(loc1.getBlockZ() - loc2.getBlockZ())+1;
         return dx*dz;
     }
+    public int getLength_X(){
+        return Math.abs(loc1.getBlockX() - loc2.getBlockX())+1;
+    }
+    public int getLength_Z(){
+        return Math.abs(loc1.getBlockZ() - loc2.getBlockZ())+1;
+    }
     public int getBlocks_3D(){ //UNTESTED!!!
         int dx = Math.abs(loc1.getBlockX() - loc2.getBlockX())+1;
         int dy = Math.abs(loc1.getBlockY() - loc2.getBlockY())+1;

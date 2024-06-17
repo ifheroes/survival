@@ -4,6 +4,11 @@ import com.akabex86.main.Main;
 import com.akabex86.objects.Cuboid;
 import com.akabex86.utils.UuidFetcher;
 import com.akabex86.utils.Zone;
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -64,63 +69,77 @@ public class CommandZone implements CommandExecutor, TabCompleter {
                     Cuboid selection = Zone.ZoneCache.get(p.getName());
                     if(selection != null){
                         if(selection.isValid()){
-                            //p.sendMessage("§aRegion erstellt! (nicht wirklich aber mal so als platzhalter)");
+                            //TODO ERROR HANDLING - IMPLEMENT ZONE CREDITS
+                            //ZONE CREATOR
                             int result = Zone.create(UuidFetcher.getUUID(p.getName()),selection);
-                            switch(result){
-                                case 0:
+                            switch (result) {
+                                case 0 ->
                                     //SUCCESS
-                                    p.sendMessage("§4DEBUG §aRegion erstellt!");
-                                    break;
-                                case 1:
+                                        p.sendMessage("§aZone erstellt!");
+                                case 1 -> {
                                     //REGION ALREADY EXISTS
-                                    p.sendMessage("§4DEBUG §cRegion existiert bereits!");
-                                    break;
-                                case 2:
+                                    p.sendMessage("");
+                                    p.sendMessage("§eWillst du deine bestehende Zone überschreiben?");
+                                    TextComponent message = new TextComponent();
+                                    TextComponent accept = new TextComponent("Überschreiben");
+                                    accept.setColor(ChatColor.GREEN);
+                                    accept.setBold(true);
+                                    accept.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/zone update"));
+                                    accept.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("/zone update")));
+                                    message.addExtra(accept);
+                                    p.spigot().sendMessage(message);
+                                }
+                                case 2 ->
                                     //REGION MANAGER NOT FOUND
-                                    p.sendMessage("§4DEBUG §cRegionsmanager nicht gefunden!");
-                                    break;
-                                case 3:
+                                        p.sendMessage("§cZonenmanager nicht gefunden!");
+                                case 3 ->
                                     //LOCATION DATA NOT FOUND
-                                    p.sendMessage("§4DEBUG §cFehlerhafte Positionsdaten!");
-                                    break;
-                                case 4:
-                                    //LOCATION DATA NOT FOUND
-                                    p.sendMessage("§4DEBUG §cAuswahl zu groß! (Max.7000)");
-                                    break;
-                                case 5:
-                                    //LOCATION DATA NOT FOUND
-                                    p.sendMessage("§4DEBUG §cREGION UEBERSCHNEIDET SICH MIT BESTEHENDER REGION!");
-                                    break;
-                                default:
+                                        p.sendMessage("§cFehlerhafte Positionsdaten!");
+                                case 4 ->
+                                    //SELECTION TOO LARGE
+                                        p.sendMessage("§cAuswahl zu groß! (Max.7000)");
+                                case 5 ->
+                                    //SELECTION TOO SMALL
+                                        p.sendMessage("§cAuswahl zu klein! (Min.10x10)");
+                                case 6 ->
+                                    //ZONE INTERSECTION
+                                        p.sendMessage("§cZone überschneidet sich mit einer oder mehreren anderen Zonen.");
+                                default ->
                                     //UNKNOWN ERROR
-                                    p.sendMessage("§4DEBUG §cUnbekannter Fehler!");
-                                    break;
+                                        p.sendMessage("§cUnbekannter Fehler!");
                             }
 
                             return true;
                         }
                     }
                     p.sendMessage("§cDu must erst eine Zone festlegen.");
-                    //COMMAND FOR CREATION AFTER 2 POINTS HAVE BEEN SET
-                    //TODO ERROR HANDLING LIKE INTERSECTIONS, TOO SMALL, NOT ENOUGH CREDITS, TOO LARGE
+                    return true;
+                }
+                if(args[0].equalsIgnoreCase("update")){
+                    //TODO SHOW INFO ABOUT THE ZONE A PLAYER IS CURRENTLY STANDING ON
+                    return true;
+                }
+                if(args[0].equalsIgnoreCase("delete")){
+                    //DELETES THE ZONE A PLAYER IS CURRENTLY STANDING ON
+                    //TODO ADD SECOND ARG FOR MULTIPLE ZONES
+                    if(Zone.delete(UuidFetcher.getUUID(p.getName()))){
+                        p.sendMessage("§cZone gelöscht");
+                    }
                     return true;
                 }
                 if(args[0].equalsIgnoreCase("info")){
-                    //TODO zeigt informationen ueber eine zone an auf der
+                    //TODO SHOW INFO ABOUT THE ZONE A PLAYER IS CURRENTLY STANDING ON
                     return true;
                 }
                 if(args[0].equalsIgnoreCase("list")){
-                    //TODO listet alle zonen eines spielers auf
-                    return true;
-                }
-                if(args[0].equalsIgnoreCase("trust")){
-                    //TODO remove and add general /trust command
+                    //TODO LISTS ALL ZONES OF A PLAYER
                     return true;
                 }
                 if(args[0].equalsIgnoreCase("help")){
                     p.sendMessage(" ");
                     p.sendMessage("§8- §7/zone tool§r §eWandelt einen Stick zum Zauberstab um.");
                     p.sendMessage("§8- §7/zone claim§r §eClaime deine Zone mit diesem Befehl");
+                    p.sendMessage("§8- §7/zone update§r §eUpdate deine Zone mit diesem Befehl");
                     p.sendMessage("§8- §7/zone delete§r §eEntfernt die Zone auf der du dich befindest");
                     p.sendMessage("§8- §7/zone info§r §eZeigt Zoneninformationen an");
                     p.sendMessage(" ");
@@ -143,6 +162,7 @@ public class CommandZone implements CommandExecutor, TabCompleter {
             //TODO UPDATE TAB COMPLETE
             TabComplete.add("tool");
             TabComplete.add("claim");
+            TabComplete.add("update");
             TabComplete.add("info");
             TabComplete.add("delete");
         }
