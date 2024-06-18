@@ -33,7 +33,6 @@ public class Zone {
     public static String _mainWorld="world";
     Zone() {
         Main.main.getLogger().log(Level.INFO,"[ZONE] zone class initialized.");
-
     }
     //THE ZONE SYSTEM IS TESTED SEPERATELY.
     //GENERAL STATEMENTS
@@ -96,8 +95,11 @@ public class Zone {
                 rm.removeRegion(name);
                 return true;
             }
+            //TODO RG IS NULL
+            Main.main.getLogger().log(Level.INFO,"DEBUG - RG IS NULL");
             return false;
         }catch (NoSuchElementException e){
+            Main.main.getLogger().log(Level.INFO,"DEBUG - NoSuchElementException");
             return false;
         }
     }

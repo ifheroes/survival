@@ -87,6 +87,7 @@ public class CommandZone implements CommandExecutor, TabCompleter {
                                     accept.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/zone update"));
                                     accept.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("/zone update")));
                                     message.addExtra(accept);
+                                    p.sendMessage("§8(§a/zone update§8)");
                                     p.spigot().sendMessage(message);
                                 }
                                 case 2 ->
@@ -119,15 +120,16 @@ public class CommandZone implements CommandExecutor, TabCompleter {
                     if(selection != null){
                         if(selection.isValid()){
                             //TODO ERROR HANDLING - IMPLEMENT ZONE CREDITS
-                            //ZONE CREATOR
+
+                            Zone.delete("zone_"+p.getName());
                             int result = Zone.create(UuidFetcher.getUUID(p.getName()),selection);
                             switch (result) {
                                 case 0 ->
                                     //SUCCESS
-                                        p.sendMessage("§aZone erstellt!");
+                                        p.sendMessage("§aZonen Update erfolgreich!");
                                 case 1 -> {
                                     //REGION ALREADY EXISTS
-                                    p.sendMessage("§cZone konnte nicht entfernt werden!");
+                                    p.sendMessage("§4FEHLER §c- zone wurde nicht entfernt");
                                 }
                                 case 2 ->
                                     //REGION MANAGER NOT FOUND
@@ -157,8 +159,8 @@ public class CommandZone implements CommandExecutor, TabCompleter {
                 if(args[0].equalsIgnoreCase("delete")){
                     //DELETES THE ZONE A PLAYER IS CURRENTLY STANDING ON
                     //TODO ADD SECOND ARG FOR MULTIPLE ZONES
-                    if(Zone.delete("zone_"+UuidFetcher.getUUID(p.getName()))){
-                        p.sendMessage("§cZone gelöscht");
+                    if(Zone.delete("zone_"+p.getName())){
+                        p.sendMessage("§aZone gelöscht.");
                         return true;
                     }
                     p.sendMessage("§cDie Zone gehört dir nicht oder es konnte keine Zone gefunden werden.");

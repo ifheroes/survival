@@ -15,13 +15,17 @@ public class Events_BlockInteract {
         Player p = e.getPlayer();
         if(Zone.hasTool(p)){
             //Y IS ALWAYS LOWEST ON FIRST POS AND HIGHEST ON SECOND POS
-            int blockx = e.getClickedBlock().getLocation().getBlockX();
-            int blockz = e.getClickedBlock().getLocation().getBlockZ();
-            Location clicked = e.getClickedBlock().getLocation();
-            if(clicked.getWorld().getName().equalsIgnoreCase(Zone._mainWorld)){
+            if(!p.getWorld().getName().equalsIgnoreCase(Zone._mainWorld)){
                 return; //TODO check: does this work?
             }
+
             if(e.getAction() == Action.LEFT_CLICK_BLOCK){
+
+                Location clicked = e.getClickedBlock().getLocation();
+
+                int blockx = clicked.getBlockX();
+                int blockz = clicked.getBlockZ();
+
                 if(Zone.setPos1(p,clicked)){
                     if(Zone.hasPos2(p)){
                         //TODO BEI REGIONSUEBERSCHNEIDUNGEN FEHLER MELDEN & LOCAL VISUALIZER DER LAEUFT WENN MAN DEN ZAUBERSTAB IN DER HAND HAT
@@ -40,6 +44,12 @@ public class Events_BlockInteract {
                 }
             }
             if(e.getAction() == Action.RIGHT_CLICK_BLOCK){
+
+                Location clicked = e.getClickedBlock().getLocation();
+
+                int blockx = clicked.getBlockX();
+                int blockz = clicked.getBlockZ();
+
                 if(Zone.setPos2(p,clicked)){
                     if(Zone.hasPos1(p)){
                         int blocks = Zone.ZoneCache.get(p.getName()).getBlocks_2D();
