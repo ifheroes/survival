@@ -4,11 +4,14 @@ import com.akabex86.main.Main;
 import com.akabex86.objects.Cuboid;
 import com.akabex86.utils.UuidFetcher;
 import com.akabex86.utils.Zone;
+import com.sk89q.worldedit.math.BlockVector2;
+import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.chat.hover.content.Text;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -42,6 +45,10 @@ public class CommandZone implements CommandExecutor, TabCompleter {
         if (sender instanceof Player){
             Player p = (Player)sender;
             int minsize = 50;
+            if(!p.getWorld().getName().equalsIgnoreCase(Zone._mainWorld)){
+                p.sendMessage("§cDas erstellen von Zonen ist nur in der Hauptwelt erlaubt!");
+                return true;
+            }
             if(args.length == 1){
 
                 if(     args[0].equalsIgnoreCase("wand")||
@@ -168,6 +175,25 @@ public class CommandZone implements CommandExecutor, TabCompleter {
                 }
                 if(args[0].equalsIgnoreCase("info")){
                     //TODO SHOW INFO ABOUT THE ZONE A PLAYER IS CURRENTLY STANDING ON
+                    Location loc = p.getLocation();
+                    if(Zone.hasZoneAt(loc)){
+                        ProtectedRegion reg = Zone.getZoneAt(loc);
+                        String id = reg.getId();
+                        String owner = id.replaceFirst("zone_","");
+                        List<BlockVector2> pts = reg.getPoints();
+
+                        p.sendMessage("§aZone von "+owner);
+                        int num=1;
+                        for(BlockVector2 bv:pts){
+                            int x=bv.getBlockX();
+                            int z=bv.getBlockZ();
+                            p.sendMessage("§8- §e"+num+".Eckpunkt: [X:"+x+" Z:"+z+"]");
+                            num++;
+                        }
+                        p.sendMessage("§8- §emehr parameter bald verfügbar.");
+                        return true;
+                    }
+                    p.sendMessage("§cZone nicht gefunden.");
                     return true;
                 }
                 if(args[0].equalsIgnoreCase("list")){

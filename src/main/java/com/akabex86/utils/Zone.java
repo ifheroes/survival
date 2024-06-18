@@ -36,10 +36,6 @@ public class Zone {
     }
     //THE ZONE SYSTEM IS TESTED SEPERATELY.
     //GENERAL STATEMENTS
-    public static boolean isWithinZone(String UUID){
-        //TODO BUILD ZONE DETECTOR (detects if a player is within a zone - low priority)
-        return false;
-    }
 
     public static int create(String UUID, Cuboid selection){
         String pname = UuidFetcher.getName(UUID);
@@ -148,9 +144,6 @@ public class Zone {
     }
 
 
-    //TODO
-    // advanced error handling in update and create command(intersecting regions, too small, too large)
-    //POSITION HANDLERS
     //GETTERS
     public static Location getPos1(Player p){
         String playerName = p.getName();
@@ -168,7 +161,55 @@ public class Zone {
         }
         return null;
     }
-    //SETTERS return true if positions have been updated
+    public static ProtectedRegion getZoneAt(Location loc){
+        //CHECKS IF WORLDGUARD REGION WITH THE NAME EXISTS
+        try{
+            World mainWorld = Bukkit.getServer().getWorld(_mainWorld);
+            RegionContainer cont = WorldGuard.getInstance().getPlatform().getRegionContainer();
+            RegionQuery query = cont.createQuery();
+            ApplicableRegionSet set = query.getApplicableRegions(BukkitAdapter.adapt(loc));
+
+            List<ProtectedRegion> regions = new ArrayList<ProtectedRegion>(set.getRegions());
+
+            Main.main.getLogger().log(Level.INFO,"Getting Zones at X:"+loc.getBlockX()+" Z:"+loc.getBlockZ()+" : ");
+            for(ProtectedRegion reg:regions){
+                //TODO REMOVE DEBUGGER
+                if(reg.getId().startsWith("zone_")){
+                    Main.main.getLogger().log(Level.INFO,"- found region: "+reg.getId()+" [ZONE]");
+                    return reg;
+                }
+            }
+            return null;
+        }catch (NoSuchElementException e){
+            return null;
+        }
+    }
+
+    public static boolean hasZoneAt(Location loc){
+        //CHECKS IF WORLDGUARD REGION WITH THE NAME EXISTS
+        try{
+            World mainWorld = Bukkit.getServer().getWorld(_mainWorld);
+            RegionContainer cont = WorldGuard.getInstance().getPlatform().getRegionContainer();
+            RegionQuery query = cont.createQuery();
+            ApplicableRegionSet set = query.getApplicableRegions(BukkitAdapter.adapt(loc));
+
+            List<ProtectedRegion> regions = new ArrayList<ProtectedRegion>(set.getRegions());
+
+            Main.main.getLogger().log(Level.INFO,"Getting Zones at X:"+loc.getBlockX()+" Z:"+loc.getBlockZ()+" : ");
+            for(ProtectedRegion reg:regions){
+                //TODO REMOVE DEBUGGER
+                if(reg.getId().startsWith("zone_")){
+                    Main.main.getLogger().log(Level.INFO,"- found region: "+reg.getId()+" [ZONE]");
+                    return true;
+                }
+            }
+            return false;
+        }catch (NoSuchElementException e){
+            return false;
+        }
+    }
+
+    //SETTERS
     public static boolean setPos1(Player p, Location pos1){
         if (p == null || pos1 == null) {
             return false;
