@@ -182,7 +182,7 @@ public class CommandZone implements CommandExecutor, TabCompleter {
                         String owner = id.replaceFirst("zone_","");
                         List<BlockVector2> pts = reg.getPoints();
 
-                        p.sendMessage("§aZone von "+owner);
+                        p.sendMessage("\n§aZone von "+owner);
                         int num=1;
                         for(BlockVector2 bv:pts){
                             int x=bv.getBlockX();
@@ -193,7 +193,7 @@ public class CommandZone implements CommandExecutor, TabCompleter {
                         p.sendMessage("§8- §emehr parameter bald verfügbar.");
                         return true;
                     }
-                    p.sendMessage("§cZone nicht gefunden.");
+                    p.sendMessage("§cDu befindest dich in keiner Zone.");
                     return true;
                 }
                 if(args[0].equalsIgnoreCase("list")){

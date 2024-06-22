@@ -41,7 +41,7 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>2.3.1</version>
                 <configuration>
-                    <outputDirectory>D:\MinecraftServer\Paper[IFHeroes_Test]\plugins</outputDirectory>
+                    <outputDirectory>D:\export\IFHTest\plugins</outputDirectory>
                 </configuration>
             </plugin>
         </plugins>
