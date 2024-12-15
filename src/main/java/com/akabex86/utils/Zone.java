@@ -27,6 +27,11 @@ import java.util.NoSuchElementException;
 import java.util.logging.Level;
 
 public class Zone {
+	
+	public enum CreateResult {
+		REGIONCREATED, ALLREADYEXISTS, SELECTIONTOLARGE, SELECTIONTOSMALL, INVALIDLOCATION, ZONEINTERSECTION, ZONEMANAGERNOTFOUND
+	}
+	
     public static HashMap<String, Cuboid> ZoneCache = new HashMap();
 
     //TODO USE WORLD FROM INSTEAD OF USING INDEX 0
@@ -37,7 +42,7 @@ public class Zone {
     //THE ZONE SYSTEM IS TESTED SEPERATELY.
     //GENERAL STATEMENTS
 
-    public static int create(String UUID, Cuboid selection){
+    public static CreateResult create(String UUID, Cuboid selection){
         String pname = UuidFetcher.getName(UUID);
         RegionContainer cont = WorldGuard.getInstance().getPlatform().getRegionContainer();
 
@@ -48,15 +53,15 @@ public class Zone {
         if(exists("zone_"+pname)){
             //ZONE ALREADY EXISTS
             //TODO MODIFY THIS IN THE FUTURE TO REMOVE THE ZONE AMOUNT LIMIT
-            return 1;
+            return CreateResult.ALLREADYEXISTS;
         }
         if(selection.getBlocks_2D() > 7000){
             //SELECTION TOO LARGE
-            return 4;
+            return CreateResult.SELECTIONTOLARGE;
         }
         if(selection.getLength_X() < 10||selection.getLength_Z() < 10){
             //SELECTION TOO SMALL
-            return 5;
+            return CreateResult.SELECTIONTOSMALL;
         }
         if(mainWorld != null && loc1.getWorld() == loc2.getWorld() && loc2.getWorld() == mainWorld){
             RegionManager rm = cont.get(BukkitAdapter.adapt(mainWorld));
@@ -66,19 +71,19 @@ public class Zone {
                 if(isIntersecting(rm,reg)){
                     //THIS REMOVES THE REGION AGAIN IF IT INTERSECTS WITH ANOTHER ONE
                     rm.removeRegion(reg.getId());
-                    return 6;
+                    return CreateResult.ZONEINTERSECTION;
                 }
                 DefaultDomain owner = new DefaultDomain();
                 owner.addPlayer(pname);
                 reg.setOwners(owner);
                 //REGION CREATED
-                return 0;
+                return CreateResult.REGIONCREATED;
             }
             //REGION MANAGER IS NULL
-            return 2;
+            return CreateResult.ZONEMANAGERNOTFOUND;
         }
         //INVALID LOCATION DATA
-        return 3;
+        return CreateResult.INVALIDLOCATION;
     }
     public static boolean delete(String name){
         //TODO CHECK IF WORLDGUARD REGION WITH THE NAME EXISTS
