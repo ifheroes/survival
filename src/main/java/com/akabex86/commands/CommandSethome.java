@@ -23,7 +23,7 @@ public class CommandSethome implements CommandExecutor, TabCompleter {
         if (sender instanceof Player){
             Player p = (Player) sender;
             String UUID = p.getUniqueId().toString();
-            int maxHomes = 3; //TODO MAKE MAXHOMES MODIFIABLE IN HEROPROFILE
+            int maxHomes = 10; //TODO MAKE MAXHOMES MODIFIABLE IN HEROPROFILE
 
             if(args.length == 0){
                 //just the /sethome command
