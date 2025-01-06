@@ -13,16 +13,18 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.akabex86.features.FeatureComponent;
 import com.akabex86.features.FeaturePlugin;
 import com.akabex86.features.lootshare.listeners.DamageEntity;
 import com.akabex86.features.lootshare.listeners.EntityDeath;
 import com.akabex86.features.lootshare.listeners.PickupItemandXP;
 import com.akabex86.main.Main;
 
+@FeatureComponent
 public class LootShare extends FeaturePlugin{
 	
 
-	public static final NamespacedKey keyTag = new NamespacedKey(JavaPlugin.getPlugin(Main.class), "lootshare:owner");
+	public static final NamespacedKey keyTag = new NamespacedKey(JavaPlugin.getPlugin(Main.class), "lootshareowner");
 	private static EntityDamageRegistry entityDamageRegistry = new EntityDamageRegistry();
 	public static final double SHARELOOTPERCENTAGE = 0.6;
 	
