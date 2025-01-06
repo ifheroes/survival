@@ -1,5 +1,6 @@
 package com.akabex86.objects;
 
+import com.akabex86.features.FeaturePlugin;
 import com.akabex86.utils.Zone;
 import com.sk89q.worldedit.math.BlockVector3;
 import org.bukkit.Location;
