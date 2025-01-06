@@ -17,6 +17,7 @@ import com.akabex86.features.FeatureComponent;
 import com.akabex86.features.FeaturePlugin;
 import com.akabex86.features.lootshare.listeners.DamageEntity;
 import com.akabex86.features.lootshare.listeners.EntityDeath;
+import com.akabex86.features.lootshare.listeners.ItemMerge;
 import com.akabex86.features.lootshare.listeners.PickupItemandXP;
 import com.akabex86.main.Main;
 
@@ -37,6 +38,7 @@ public class LootShare extends FeaturePlugin{
 		Bukkit.getPluginManager().registerEvents(new DamageEntity(), getPlugin());
 		Bukkit.getPluginManager().registerEvents(new EntityDeath(), getPlugin());
 		Bukkit.getPluginManager().registerEvents(new PickupItemandXP(), getPlugin());
+		Bukkit.getPluginManager().registerEvents(new ItemMerge(), getPlugin());
 	}
 	
 	public static EntityDamageRegistry getEntityDamageRegistry() {

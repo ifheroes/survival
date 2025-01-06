@@ -14,9 +14,14 @@ public class PickupItemandXP implements Listener {
 
 	@EventHandler
 	public void playerPickUpItem(EntityPickupItemEvent event) {
-		UUID uuid = UUID.fromString(Optional.ofNullable(event.getItem().getPersistentDataContainer().get(LootShare.keyTag, PersistentDataType.STRING)).orElse(""));
-		if(uuid.toString().equals("")) return;
-		if(event.getEntity().getUniqueId() != uuid) event.setCancelled(true);
+		
+		Optional<String> optional = Optional.ofNullable(event.getItem().getPersistentDataContainer().get(LootShare.keyTag, PersistentDataType.STRING));
+		if(!optional.isPresent()) return;
+		
+		UUID uuid = UUID.fromString(optional.get());
+		
+		if(uuid.toString().equalsIgnoreCase("")) return;
+		if(event.getEntity().getUniqueId().compareTo(uuid) != 0) event.setCancelled(true);
 	}
 	
 	//TODO XP Integration
