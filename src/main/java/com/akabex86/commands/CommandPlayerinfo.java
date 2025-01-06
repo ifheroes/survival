@@ -1,21 +1,14 @@
 package com.akabex86.commands;
 
-import com.akabex86.main.Main;
-import com.akabex86.utils.Tpa;
-import com.comphenix.protocol.utility.MinecraftReflection;
-import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
+import com.akabex86.main.Main;
+
+import me.clip.placeholderapi.PlaceholderAPI;
 
 public class CommandPlayerinfo implements CommandExecutor{
     public CommandPlayerinfo(Main main){
@@ -30,6 +23,8 @@ public class CommandPlayerinfo implements CommandExecutor{
                 if(Bukkit.getPlayer(args[0]) != null){
                     Player target = Bukkit.getPlayer(args[0]);
 
+                    
+                    
                     p.sendMessage("§l---Spielerinfo["+target.getName()+"]---");
                     p.sendMessage("UUID: §e"+target.getUniqueId().toString());
                     p.sendMessage("Ping: §e"+target.getPing());
