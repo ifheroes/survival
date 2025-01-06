@@ -28,5 +28,8 @@ public class EntityDeath implements Listener{
 			filter(entry -> entry.getValue() >= LootShare.SHARELOOTPERCENTAGE * maxDamage).forEach(entry -> {
 				event.getDrops().forEach(drop -> LootShare.spawnLoot(drop, killedEntity.getLocation(), entry.getKey()));
 			});
+		
+		event.getDrops().clear();
+		LootShare.getEntityDamageRegistry().removeEntity(killedEntity);
 	}
 }

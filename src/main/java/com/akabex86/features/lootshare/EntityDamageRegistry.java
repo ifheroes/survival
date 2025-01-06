@@ -34,5 +34,8 @@ public class EntityDamageRegistry {
 					LinkedHashMap::new)
 				);
 	}
-
+	
+	public void removeEntity(Entity entity) {
+		entityDamageComposition.remove(entity);
+	}
 }
