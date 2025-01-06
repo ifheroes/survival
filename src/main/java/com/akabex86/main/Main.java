@@ -1,24 +1,40 @@
 package com.akabex86.main;
 
-import com.akabex86.commands.*;
-import com.akabex86.listeners.PacketListeners;
-import com.akabex86.listeners._EventLoader;
-import com.akabex86.utils.Config;
-import com.akabex86.utils.HeroProfile;
-import com.akabex86.utils.UuidFetcher;
-import com.akabex86.utils.Warp;
-import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.ProtocolLib;
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.ProtocolManager;
-import com.comphenix.protocol.events.ListenerPriority;
-import com.comphenix.protocol.events.PacketAdapter;
-import com.comphenix.protocol.events.PacketEvent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import com.akabex86.commands.CommandBook;
+import com.akabex86.commands.CommandBroadcast;
+import com.akabex86.commands.CommandDelhome;
+import com.akabex86.commands.CommandDelwarp;
+import com.akabex86.commands.CommandEnchant;
+import com.akabex86.commands.CommandEnderchest;
+import com.akabex86.commands.CommandHome;
+import com.akabex86.commands.CommandHomes;
+import com.akabex86.commands.CommandInvsee;
+import com.akabex86.commands.CommandPlayerinfo;
+import com.akabex86.commands.CommandSethome;
+import com.akabex86.commands.CommandSetwarp;
+import com.akabex86.commands.CommandSpawn;
+import com.akabex86.commands.CommandSpyhome;
+import com.akabex86.commands.CommandTicket;
+import com.akabex86.commands.CommandTpa;
+import com.akabex86.commands.CommandTpaccept;
+import com.akabex86.commands.CommandTpdeny;
+import com.akabex86.commands.CommandWarp;
+import com.akabex86.commands.CommandWarps;
+import com.akabex86.commands.CommandZone;
+import com.akabex86.features.lootshare.LootShare;
+import com.akabex86.listeners.PacketListeners;
+import com.akabex86.listeners._EventLoader;
+import com.akabex86.utils.Config;
+import com.akabex86.utils.UuidFetcher;
+import com.akabex86.utils.Warp;
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
 
 public class Main extends JavaPlugin {
 
@@ -49,6 +65,9 @@ public class Main extends JavaPlugin {
 
         Warp.loadWarps();//Only works properly if the file exists, FIX THAT!
         UuidFetcher.updateMappings();
+        
+        new LootShare(this);
+        
         logger.log(Level.INFO,"Survival System aktiviert!");
     }
     @Override
