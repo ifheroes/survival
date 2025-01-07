@@ -8,4 +8,7 @@ import java.lang.annotation.Target;
 
 @Retention(RUNTIME)
 @Target(TYPE)
-public @interface FeatureComponent {}
+public @interface FeatureComponent {
+	String owner() default "none";
+	String version() default "0.1";
+}
