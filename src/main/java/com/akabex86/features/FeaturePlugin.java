@@ -6,7 +6,7 @@ public abstract class FeaturePlugin implements Feature{
 
 	private Plugin plugin;
 	
-	public FeaturePlugin(Plugin plugin) {
+	protected FeaturePlugin(Plugin plugin) {
 		this.plugin = plugin;
 		registerEvents();
 		registerCommands();

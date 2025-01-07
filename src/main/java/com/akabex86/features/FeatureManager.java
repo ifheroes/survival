@@ -1,55 +1,55 @@
 package com.akabex86.features;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 import org.reflections.Reflections;
 
 public class FeatureManager {
 
-	private final Map<Class<?>, Feature> registeredFeatures = new HashMap<>();
-
+private final Set<Feature> registeredFeatures = new HashSet<>();
+	
     public FeatureManager(String basePackage) {
         scanAndRegisterFeatures(basePackage);
     }
 
     private void scanAndRegisterFeatures(String basePackage) {
         Reflections reflections = new Reflections(basePackage);
-
-        Set<Class<? extends Feature>> featureClasses = reflections.getSubTypesOf(Feature.class);
         Set<Class<?>> annotatedFeatures = reflections.getTypesAnnotatedWith(FeatureComponent.class);
         
-        Set<Class<?>> allFeatures = new HashSet<>();
-        
-        allFeatures.addAll(featureClasses);
-        allFeatures.addAll(annotatedFeatures);
-
-        for (Class<?> featureClass : allFeatures) {
-            try {
-                Object instance = featureClass.getDeclaredConstructor().newInstance();
-                if (instance instanceof Feature) {
-                    registeredFeatures.put(featureClass, (Feature) instance);
-                }
-            } catch (Exception e) {
-                System.err.println("Failed to instantiate feature: " + featureClass.getName());
-                e.printStackTrace();
-            }
-        }
+        annotatedFeatures.stream()
+        	.map(this::safeInstantiateFeature)
+        	.flatMap(Optional::stream)
+        	.forEach(registeredFeatures::add);
     }
 
-    public List<Feature> getRegisteredFeatures() {
-        return new ArrayList<>(registeredFeatures.values());
+    public Set<Feature> getRegisteredFeatures() {
+        return registeredFeatures;
     }
 
     public void initializeFeatures() {
-        registeredFeatures.values().forEach(feature -> {
+        registeredFeatures.forEach(feature -> {
         	feature.registerCommands();
         	feature.registerEvents();
         });
     }
 	
+    public int getEntrys() {
+    	return registeredFeatures.size();
+    }
+    
+    private Optional<Feature> safeInstantiateFeature(Class<?> featureClass) {
+        try {
+        	Object instance = featureClass.getDeclaredConstructor().newInstance();
+            if (instance instanceof Feature featureInstance) {
+            	return Optional.of(featureInstance);
+            }
+        } catch (ReflectiveOperationException e) {
+        	//TODO: Intergrate Logger
+        	System.err.println("Failed to instantiate feature: " + featureClass.getName());
+        }
+        return Optional.empty();
+    }
+    
 }
