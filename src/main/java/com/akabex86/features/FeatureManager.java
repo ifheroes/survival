@@ -36,7 +36,7 @@ private final Set<Feature> registeredFeatures = new HashSet<>();
     public void initializeFeatures() {
         registeredFeatures.forEach(feature -> {
         	feature.onLoad();
-        	Bukkit.getLogger().info("Feature %s loaded!".formatted(feature.getClass().getSimpleName()));
+        	Bukkit.getLogger().log(Level.INFO, "Feature %s loaded!".formatted(feature.getClass().getSimpleName()));
         });
     }
 	
