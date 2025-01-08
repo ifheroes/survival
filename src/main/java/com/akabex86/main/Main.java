@@ -27,7 +27,7 @@ import com.akabex86.commands.CommandTpdeny;
 import com.akabex86.commands.CommandWarp;
 import com.akabex86.commands.CommandWarps;
 import com.akabex86.commands.CommandZone;
-import com.akabex86.features.lootshare.LootShare;
+import com.akabex86.features.FeatureManager;
 import com.akabex86.listeners.PacketListeners;
 import com.akabex86.listeners._EventLoader;
 import com.akabex86.utils.Config;
@@ -40,9 +40,12 @@ public class Main extends JavaPlugin {
 
     public static Main main;
     Logger logger = this.getLogger();
-
+    
     private ProtocolManager protocolManager;
-
+    private FeatureManager featureManager;
+    
+    private static String featuresPackage = "com.akabex86.features";
+    
     @Override
     public void onEnable() {
         //TODO create a messages.yml file for editing if it doesnt exist already.
@@ -66,7 +69,14 @@ public class Main extends JavaPlugin {
         Warp.loadWarps();//Only works properly if the file exists, FIX THAT!
         UuidFetcher.updateMappings();
         
-        new LootShare(this);
+        /*
+         * Feature Manager
+         */
+        
+        logger.log(Level.INFO, "Loading Features:");
+        featureManager = new FeatureManager(featuresPackage);
+        featureManager.initializeFeatures();
+        logger.log(Level.INFO, "All Features loaded!");
         
         logger.log(Level.INFO,"Survival System aktiviert!");
     }
