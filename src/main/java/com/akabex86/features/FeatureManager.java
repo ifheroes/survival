@@ -3,9 +3,14 @@ package com.akabex86.features;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+import java.util.logging.Level;
 
+import org.bukkit.Bukkit;
 import org.reflections.Reflections;
 
+/*
+ * V-1.0
+ */
 public class FeatureManager {
 
 private final Set<Feature> registeredFeatures = new HashSet<>();
@@ -30,8 +35,8 @@ private final Set<Feature> registeredFeatures = new HashSet<>();
 
     public void initializeFeatures() {
         registeredFeatures.forEach(feature -> {
-        	feature.registerCommands();
-        	feature.registerEvents();
+        	feature.onLoad();
+        	Bukkit.getLogger().info("Feature %s loaded!".formatted(feature.getClass().getSimpleName()));
         });
     }
 	
@@ -44,10 +49,11 @@ private final Set<Feature> registeredFeatures = new HashSet<>();
         	Object instance = featureClass.getDeclaredConstructor().newInstance();
             if (instance instanceof Feature featureInstance) {
             	return Optional.of(featureInstance);
+            } else {
+            	Bukkit.getLogger().log(Level.WARNING, "Failed to declare %s as feature! Did it import the Feature interface?".formatted(featureClass.getSimpleName()));
             }
         } catch (ReflectiveOperationException e) {
-        	//TODO: Intergrate Logger
-        	System.err.println("Failed to instantiate feature: " + featureClass.getName());
+        	Bukkit.getLogger().log(Level.SEVERE, "Failed to instantiate feature: %s".formatted(featureClass.getName()));
         }
         return Optional.empty();
     }
