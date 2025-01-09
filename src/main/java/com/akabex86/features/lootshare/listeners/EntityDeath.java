@@ -24,12 +24,17 @@ public class EntityDeath implements Listener{
 		LinkedHashMap<Player, Double> damageComposit = LootShare.getEntityDamageRegistry().getDamageComposite(killedEntity, comparator);
 		
 		double maxDamage = damageComposit.values().stream().findFirst().orElse(0D); if(maxDamage == 0D) return;
-		damageComposit.entrySet().stream().
-			filter(entry -> entry.getValue() >= LootShare.SHARELOOTPERCENTAGE * maxDamage).forEach(entry -> {
-				event.getDrops().forEach(drop -> LootShare.spawnLoot(drop, killedEntity.getLocation(), entry.getKey()));
-			});
 		
+		damageComposit.entrySet().stream()
+						.filter(entry -> entry.getValue() >= LootShare.SHARELOOTPERCENTAGE * maxDamage)
+						.map(m -> m.getKey())
+						.forEach(entry -> {
+							event.getDrops().forEach(drop -> LootShare.spawnLoot(drop, killedEntity.getLocation(), entry));
+							entry.giveExp(event.getDroppedExp());
+						});
+
 		event.getDrops().clear();
+		event.setDroppedExp(0);
 		LootShare.getEntityDamageRegistry().removeEntity(killedEntity);
 	}
 }
