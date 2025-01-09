@@ -4,6 +4,7 @@ import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.bukkit.entity.Boss;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -36,5 +37,20 @@ public class EntityDeath implements Listener{
 		event.getDrops().clear();
 		event.setDroppedExp(0);
 		LootShare.getEntityDamageRegistry().removeEntity(killedEntity);
+	}
+	
+	@EventHandler
+	public void bossDeath(EntityDeathEvent event) {
+		LivingEntity killedEntity = event.getEntity();
+		if(!(killedEntity instanceof Boss)) return;
+		if(killedEntity.getKiller() == null) return;
+		
+		event.getDrops().forEach(item -> {
+			LootShare.spawnLoot(item, killedEntity.getLocation(), killedEntity.getKiller());
+			LootShare.spawnXP(killedEntity.getKiller().getLocation(), event.getDroppedExp());
+		});
+		
+		event.setDroppedExp(0);
+		event.getDrops().clear();
 	}
 }
