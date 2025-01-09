@@ -1,5 +1,6 @@
 package com.akabex86.features.lootshare.listeners;
 
+import org.bukkit.entity.Boss;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -16,5 +17,14 @@ public class DamageEntity implements Listener{
 		
 		LootShare.getEntityDamageRegistry().addDamage(event.getEntity(), (Player) event.getDamager(), event.getDamage());
 	} 
+	
+	@EventHandler
+	public void playerDamageBoss(EntityDamageByEntityEvent event) {
+		if(!(event.getEntity() instanceof Boss)) return;
+		if(!(event.getDamager() instanceof Player)) return;
+		
+		LootShare.getEntityDamageRegistry().addDamage(event.getEntity(), (Player) event.getDamager(), event.getDamage());
+		
+	}
 	
 }
