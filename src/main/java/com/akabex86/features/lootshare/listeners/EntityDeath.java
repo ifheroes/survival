@@ -30,8 +30,7 @@ public class EntityDeath implements Listener{
 						.filter(entry -> entry.getValue() >= LootShare.SHARELOOTPERCENTAGE * maxDamage)
 						.map(m -> m.getKey())
 						.forEach(player -> {
-							event.getDrops().forEach(drop -> LootShare.spawnLoot(drop, killedEntity.getLocation(), player));
-							player.giveExp(event.getDroppedExp());
+							event.getDrops().forEach(drop -> LootShare.spawnLoot(drop, killedEntity.getLocation(), player, event.getDroppedExp()));				
 							player.playSound(player, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
 						});
 
