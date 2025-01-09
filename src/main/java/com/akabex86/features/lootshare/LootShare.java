@@ -44,12 +44,16 @@ public class LootShare extends FeaturePlugin{
 		return !((entity instanceof Player) || (entity instanceof Boss));
 	}
 	
-	public static void spawnLoot(ItemStack item, Location location, Player owner, int xp) {
+	public static void spawnLoot(ItemStack item, Location location, Player owner) {
 		World world = location.getWorld();
-		world.spawn(location, ExperienceOrb.class, t -> t.setExperience(xp));
 		world.dropItemNaturally(location, item, droppedItem -> {
 			PersistentDataContainer data = droppedItem.getPersistentDataContainer();
 			data.set(keyTag, PersistentDataType.STRING, owner.getUniqueId().toString());
 		});
+	}
+	
+	public static void spawnXP(Location location, int xp) {
+		World world = location.getWorld();
+		world.spawn(location, ExperienceOrb.class, t -> t.setExperience(xp));
 	}
 }
