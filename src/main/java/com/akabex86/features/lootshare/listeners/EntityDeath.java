@@ -4,7 +4,6 @@ import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.bukkit.Sound;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -30,7 +29,8 @@ public class EntityDeath implements Listener{
 						.filter(entry -> entry.getValue() >= LootShare.SHARELOOTPERCENTAGE * maxDamage)
 						.map(m -> m.getKey())
 						.forEach(player -> {
-							event.getDrops().forEach(drop -> LootShare.spawnLoot(drop, killedEntity.getLocation(), player, event.getDroppedExp()));
+							event.getDrops().forEach(drop -> LootShare.spawnLoot(drop, killedEntity.getLocation(), player));
+							LootShare.spawnXP(player.getLocation(), event.getDroppedExp());
 						});
 
 		event.getDrops().clear();
