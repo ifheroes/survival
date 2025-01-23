@@ -1,8 +1,8 @@
 name: IFH-Survival
-version: 0.0.1
+version: 0.1.2
 author: AkabeX86
 main: com.akabex86.main.Main
-api-version: 1.18
+api-version: 1.21
 depend: [ProtocolLib]
 softdepend: [PlaceholderAPI,WorldGuard]
 
