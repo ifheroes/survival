@@ -40,9 +40,13 @@ public class Warp {
         //inititiallizes all data from warps.yml
         Main.main.getLogger().log(Level.INFO, "Lade Warps...");
         for (String key : Config.getKeys("warps", false)) {
-            _warps.put(key, Config.getLocation("warps", key));
+            Location location = Config.getLocation("warps", key);
+            if (location.getWorld() == null) {
+                Main.main.getLogger().log(Level.WARNING, "Warp '" + key + "' konnte nicht geladen werden: Welt existiert nicht.");
+                continue;
+            }
+            _warps.put(key, location);
             Main.main.getLogger().log(Level.INFO, " - Warp '" + key + "' geladen.");
-
         }
         Main.main.getLogger().log(Level.INFO, "Alle Warps geladen.");
     }

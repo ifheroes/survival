@@ -1,6 +1,7 @@
 package com.akabex86.commands;
 
 import com.akabex86.utils.Warp;
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -25,7 +26,13 @@ public class CommandWarp implements CommandExecutor, TabCompleter {
                 return true;
             }
 
-            player.teleport(Warp.GetWarpLocation(args[0].toLowerCase()));
+            Location warpLocation = Warp.GetWarpLocation(args[0].toLowerCase());
+            if (warpLocation.getWorld() == null) {
+                player.sendMessage("Fehler: Die Welt für Warp [" + args[0] + "] existiert nicht.");
+                return true;
+            }
+
+            player.teleport(warpLocation);
             player.sendMessage("Teleportiere zum Warp [" + args[0] + "] ...");
 
             return true;
