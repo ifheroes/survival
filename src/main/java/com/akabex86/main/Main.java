@@ -4,16 +4,10 @@ import com.akabex86.commands.*;
 import com.akabex86.listeners.PacketListeners;
 import com.akabex86.listeners._EventLoader;
 import com.akabex86.utils.Config;
-import com.akabex86.utils.HeroProfile;
 import com.akabex86.utils.UuidFetcher;
 import com.akabex86.utils.Warp;
-import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.ProtocolLib;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
-import com.comphenix.protocol.events.ListenerPriority;
-import com.comphenix.protocol.events.PacketAdapter;
-import com.comphenix.protocol.events.PacketEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -47,7 +41,7 @@ public class Main extends JavaPlugin {
         loadListeners();
         PacketListeners.loadPacketListeners(protocolManager);
 
-        Warp.loadWarps();//Only works properly if the file exists, FIX THAT!
+        Warp.LoadWarps();//Only works properly if the file exists, FIX THAT!
         UuidFetcher.updateMappings();
         logger.log(Level.INFO,"Survival System aktiviert!");
     }
@@ -82,25 +76,25 @@ public class Main extends JavaPlugin {
         getCommand("delhome").setTabCompleter(delhome);
 
         //WARP COMMANDS
-        CommandSpawn spawn = new CommandSpawn(this);
+        CommandSpawn spawn = new CommandSpawn();
         getCommand("spawn").setExecutor(spawn);
         getCommand("spawn").setTabCompleter(spawn);
 
-        CommandWarp warp = new CommandWarp(this);
+        CommandWarp warp = new CommandWarp();
         getCommand("warp").setExecutor(warp);
         getCommand("warp").setTabCompleter(warp);
 
-        CommandWarps warps = new CommandWarps(this);
+        CommandWarps warps = new CommandWarps();
         getCommand("warps").setExecutor(warps);
         getCommand("warps").setTabCompleter(warps);
 
-        CommandSetwarp setwarp = new CommandSetwarp(this);
-        getCommand("setwarp").setExecutor(setwarp);
-        getCommand("setwarp").setTabCompleter(setwarp);
+        CommandSetWarp setWarp = new CommandSetWarp();
+        getCommand("setwarp").setExecutor(setWarp);
+        getCommand("setwarp").setTabCompleter(setWarp);
 
-        CommandDelwarp delwarp = new CommandDelwarp(this);
-        getCommand("delwarp").setExecutor(delwarp);
-        getCommand("delwarp").setTabCompleter(delwarp);
+        CommandDeleteWarp deleteWarp = new CommandDeleteWarp();
+        getCommand("delwarp").setExecutor(deleteWarp);
+        getCommand("delwarp").setTabCompleter(deleteWarp);
 
         //TPA COMMANDS
         CommandTpa tpa = new CommandTpa(this);
