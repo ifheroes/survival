@@ -8,18 +8,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.akabex86.commands.CommandBook;
 import com.akabex86.commands.CommandBroadcast;
-import com.akabex86.commands.CommandDelhome;
 import com.akabex86.commands.CommandDelwarp;
 import com.akabex86.commands.CommandEnchant;
 import com.akabex86.commands.CommandEnderchest;
-import com.akabex86.commands.CommandHome;
-import com.akabex86.commands.CommandHomes;
 import com.akabex86.commands.CommandInvsee;
 import com.akabex86.commands.CommandPlayerinfo;
-import com.akabex86.commands.CommandSethome;
 import com.akabex86.commands.CommandSetwarp;
 import com.akabex86.commands.CommandSpawn;
-import com.akabex86.commands.CommandSpyhome;
 import com.akabex86.commands.CommandTicket;
 import com.akabex86.commands.CommandTpa;
 import com.akabex86.commands.CommandTpaccept;
@@ -89,26 +84,6 @@ public class Main extends JavaPlugin {
         new _EventLoader(this);
     }
     private void loadCommands(){
-
-        //HOME COMMANDS
-        CommandHome home = new CommandHome(this);
-        getCommand("home").setExecutor(home);
-        getCommand("home").setTabCompleter(home);
-
-        CommandSpyhome spyhome = new CommandSpyhome(this);
-        getCommand("spyhome").setExecutor(spyhome);
-
-        CommandHomes homes = new CommandHomes(this);
-        getCommand("homes").setExecutor(homes);
-        getCommand("homes").setTabCompleter(homes);
-
-        CommandSethome sethome = new CommandSethome(this);
-        getCommand("sethome").setExecutor(sethome);
-        getCommand("sethome").setTabCompleter(sethome);
-
-        CommandDelhome delhome = new CommandDelhome(this);
-        getCommand("delhome").setExecutor(delhome);
-        getCommand("delhome").setTabCompleter(delhome);
 
         //WARP COMMANDS
         CommandSpawn spawn = new CommandSpawn(this);

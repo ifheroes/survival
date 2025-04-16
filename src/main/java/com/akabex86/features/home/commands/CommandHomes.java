@@ -1,13 +1,8 @@
-package com.akabex86.commands;
+package com.akabex86.features.home.commands;
 
-import com.akabex86.main.Main;
-import com.akabex86.utils.Home;
-import com.akabex86.utils.UuidFetcher;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.chat.hover.content.Text;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -15,13 +10,17 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.akabex86.features.home.HomeManager;
+import com.akabex86.utils.UuidFetcher;
+
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.chat.hover.content.Text;
 
 public class CommandHomes implements CommandExecutor, TabCompleter {
-    public CommandHomes(Main main){
-
-    }
+    
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String arg2, String[] args) {
         //TODO /homes <spieler> fuer mods
@@ -31,12 +30,12 @@ public class CommandHomes implements CommandExecutor, TabCompleter {
                 if(UuidFetcher.isFetched(args[0].toLowerCase())){
                     String UUID = UuidFetcher.getUUID(args[0]);
                     String name = UuidFetcher.getName(UUID).toUpperCase();
-                    if(!Home.hasHomes(UUID)){
+                    if(!HomeManager.hasHomes(UUID)){
                         p.sendMessage("Fehler: "+name+" hat noch kein Home gesetzt.");
                         return true;
                     }
                     p.sendMessage("Homes von "+name+":");
-                    for(String home: Home.getHomes(UUID)){
+                    for(String home: HomeManager.getHomes(UUID)){
 
                         TextComponent message = new TextComponent();
 
@@ -58,12 +57,12 @@ public class CommandHomes implements CommandExecutor, TabCompleter {
                 return true;
             }
             String UUID = p.getUniqueId().toString();
-            if(!Home.hasHomes(UUID)){
+            if(!HomeManager.hasHomes(UUID)){
                 p.sendMessage("Fehler: Du hast noch kein Home gesetzt.");
                 return true;
             }
             p.sendMessage("Homes:");
-            for(String home: Home.getHomes(UUID)){
+            for(String home: HomeManager.getHomes(UUID)){
 
                 TextComponent message = new TextComponent();
 
