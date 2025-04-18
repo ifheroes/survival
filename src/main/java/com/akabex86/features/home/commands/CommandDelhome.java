@@ -25,9 +25,9 @@ public class CommandDelhome implements CommandExecutor, TabCompleter {
 		String homeName = args[0].toLowerCase();
 		
 		// TODO USE LOCAL UUID FETCHER
-		Optional<Location> oLocation = HomeManager.getHome(uuidString, homeName);
+		Optional<Location> home = HomeManager.getHome(uuidString, homeName);
 		
-		oLocation.ifPresentOrElse(home -> {
+		home.ifPresentOrElse(homeLocation -> {
 			HomeManager.delHome(p.getUniqueId().toString(), args[0].toLowerCase());
 			p.sendMessage("Home [" + args[0].toUpperCase() + "] erfolgreich entfernt.");
 		}, () -> p.sendMessage("Fehler: Home [" + args[0].toUpperCase() + "] nicht gefunden."));
