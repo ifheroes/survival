@@ -1,6 +1,5 @@
-package com.akabex86.commands;
+package com.akabex86.features.warp.commands;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,32 +11,33 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
 import com.akabex86.features.warp.WarpManager;
-import com.akabex86.main.Main;
 
-public class CommandSpawn implements CommandExecutor, TabCompleter {
-	
-	private static final String SPAWNKEY = "spawn";
+public class CommandDelWarp implements CommandExecutor, TabCompleter {
 	
 	private WarpManager warpManager;
 	
-    public CommandSpawn(Main main){
+    public CommandDelWarp(){
     	this.warpManager = WarpManager.getInstance();
     }
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String arg2, String[] args) {
+    	if(args.length == 0) return false;
     	if(sender instanceof Player player) {
-    		Optional<Location> spawnLocation = Optional.ofNullable(warpManager.getWarp(SPAWNKEY));
+    		String warpName = args[0].toLowerCase();
+    		Optional<Location> warp = Optional.of(warpManager.getWarp(warpName));
     		
-    		spawnLocation.ifPresentOrElse(location -> {
-    			player.teleport(location);
-    			player.sendMessage("Teleportiere zum Spawn ...");
-    		}, () ->  player.sendMessage("Fehler: Spawnpunkt nicht gefunden."));
+    		warp.ifPresentOrElse(warpLocation -> {
+    			warpManager.delWarp(warpName);
+                player.sendMessage("Warp ["+warpName+"] erfolgreich entfernt.");
+    		}, () ->  player.sendMessage("Fehler: Warp ["+warpName+"] nicht gefunden."));
+    		
+    		return true;
     	}
-        return false;
+    	return false;
     }
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String s, String[] strings) {
-        return Collections.emptyList();
+    	return warpManager.getWarps().keySet().stream().toList();
     }
 }
