@@ -1,20 +1,24 @@
-package com.akabex86.commands;
+package com.akabex86.features.warp.commands;
 
-import com.akabex86.main.Main;
-import com.akabex86.utils.Warp;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.akabex86.features.warp.WarpManager;
 
 public class CommandWarp implements CommandExecutor, TabCompleter {
-    public CommandWarp(Main main){
-
+	
+	private WarpManager warpManager;
+	
+    public CommandWarp(){
+    	this.warpManager = WarpManager.getInstance();
     }
+    
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String arg2, String[] args) {
 
@@ -24,11 +28,11 @@ public class CommandWarp implements CommandExecutor, TabCompleter {
                 p.sendMessage("Fehler: Bitte gib einen Namen für deinen Warp an.");
                 return true;
             }
-            if(Warp.getWarp(args[0].toLowerCase())==null){
+            if(warpManager.getWarp(args[0].toLowerCase())==null){
                 p.sendMessage("Fehler: Warp ["+args[0]+"] nicht gefunden.");
                 return true;
             }
-            p.teleport(Warp.getWarp(args[0].toLowerCase()));
+            p.teleport(warpManager.getWarp(args[0].toLowerCase()));
             p.sendMessage("Teleportiere zum Warp ["+args[0]+"] ...");
             return true;
         }
@@ -42,7 +46,7 @@ public class CommandWarp implements CommandExecutor, TabCompleter {
 
             Player p = (Player)sender;
 
-            TabComplete.addAll(Warp.getWarps().keySet());
+            TabComplete.addAll(warpManager.getWarps().keySet());
         }
         return TabComplete;
     }

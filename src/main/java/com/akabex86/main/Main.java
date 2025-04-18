@@ -8,31 +8,22 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.akabex86.commands.CommandBook;
 import com.akabex86.commands.CommandBroadcast;
-import com.akabex86.commands.CommandDelhome;
-import com.akabex86.commands.CommandDelwarp;
 import com.akabex86.commands.CommandEnchant;
 import com.akabex86.commands.CommandEnderchest;
-import com.akabex86.commands.CommandHome;
-import com.akabex86.commands.CommandHomes;
 import com.akabex86.commands.CommandInvsee;
 import com.akabex86.commands.CommandPlayerinfo;
-import com.akabex86.commands.CommandSethome;
-import com.akabex86.commands.CommandSetwarp;
 import com.akabex86.commands.CommandSpawn;
-import com.akabex86.commands.CommandSpyhome;
 import com.akabex86.commands.CommandTicket;
 import com.akabex86.commands.CommandTpa;
 import com.akabex86.commands.CommandTpaccept;
 import com.akabex86.commands.CommandTpdeny;
-import com.akabex86.commands.CommandWarp;
-import com.akabex86.commands.CommandWarps;
 import com.akabex86.commands.CommandZone;
 import com.akabex86.features.FeatureManager;
+import com.akabex86.features.warp.WarpManager;
 import com.akabex86.listeners.PacketListeners;
 import com.akabex86.listeners._EventLoader;
 import com.akabex86.utils.Config;
 import com.akabex86.utils.UuidFetcher;
-import com.akabex86.utils.Warp;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 
@@ -66,7 +57,7 @@ public class Main extends JavaPlugin {
         loadListeners();
         PacketListeners.loadPacketListeners(protocolManager);
 
-        Warp.loadWarps();//Only works properly if the file exists, FIX THAT!
+        WarpManager.getInstance().loadWarps();//Only works properly if the file exists, FIX THAT!
         UuidFetcher.updateMappings();
         
         /*
@@ -90,46 +81,10 @@ public class Main extends JavaPlugin {
     }
     private void loadCommands(){
 
-        //HOME COMMANDS
-        CommandHome home = new CommandHome(this);
-        getCommand("home").setExecutor(home);
-        getCommand("home").setTabCompleter(home);
-
-        CommandSpyhome spyhome = new CommandSpyhome(this);
-        getCommand("spyhome").setExecutor(spyhome);
-
-        CommandHomes homes = new CommandHomes(this);
-        getCommand("homes").setExecutor(homes);
-        getCommand("homes").setTabCompleter(homes);
-
-        CommandSethome sethome = new CommandSethome(this);
-        getCommand("sethome").setExecutor(sethome);
-        getCommand("sethome").setTabCompleter(sethome);
-
-        CommandDelhome delhome = new CommandDelhome(this);
-        getCommand("delhome").setExecutor(delhome);
-        getCommand("delhome").setTabCompleter(delhome);
-
         //WARP COMMANDS
         CommandSpawn spawn = new CommandSpawn(this);
         getCommand("spawn").setExecutor(spawn);
         getCommand("spawn").setTabCompleter(spawn);
-
-        CommandWarp warp = new CommandWarp(this);
-        getCommand("warp").setExecutor(warp);
-        getCommand("warp").setTabCompleter(warp);
-
-        CommandWarps warps = new CommandWarps(this);
-        getCommand("warps").setExecutor(warps);
-        getCommand("warps").setTabCompleter(warps);
-
-        CommandSetwarp setwarp = new CommandSetwarp(this);
-        getCommand("setwarp").setExecutor(setwarp);
-        getCommand("setwarp").setTabCompleter(setwarp);
-
-        CommandDelwarp delwarp = new CommandDelwarp(this);
-        getCommand("delwarp").setExecutor(delwarp);
-        getCommand("delwarp").setTabCompleter(delwarp);
 
         //TPA COMMANDS
         CommandTpa tpa = new CommandTpa(this);
