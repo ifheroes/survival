@@ -4,6 +4,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.akabex86.commands.CommandBook;
@@ -28,6 +32,8 @@ import com.akabex86.commands.CommandWarp;
 import com.akabex86.commands.CommandWarps;
 import com.akabex86.commands.CommandZone;
 import com.akabex86.features.FeatureManager;
+import com.akabex86.features.dailyrewards.LoginTracker;
+import com.akabex86.features.dailyrewards.commands.CheckTrack;
 import com.akabex86.listeners.PacketListeners;
 import com.akabex86.listeners._EventLoader;
 import com.akabex86.utils.Config;
@@ -77,6 +83,15 @@ public class Main extends JavaPlugin {
         featureManager = new FeatureManager(featuresPackage);
         featureManager.initializeFeatures();
         logger.log(Level.INFO, "All Features loaded!");
+        
+        getCommand("checkLastLogin").setExecutor(new CommandExecutor() {
+			
+			@Override
+			public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+				sender.sendMessage(LoginTracker.getLastLoginMilis((Player) sender)+"");
+				return true;
+			}
+		});
         
         logger.log(Level.INFO,"Survival System aktiviert!");
     }
@@ -173,8 +188,10 @@ public class Main extends JavaPlugin {
         CommandBroadcast bc= new CommandBroadcast(this);
         getCommand("broadcast").setExecutor(bc);
         getCommand("broadcast").setTabCompleter(bc);
+       
 
     }
+    
     private void loadConfig(){
         Config.createMainFolder();
         Config.createFolder("kits");
