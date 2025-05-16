@@ -32,10 +32,6 @@
             <id>sk89q-repo</id>
             <url>https://maven.enginehub.org/repo/</url>
         </repository>
-        <repository>
-        	<id>infinityheroes</id>
-        	<url>https://github.com/ifheroes/core/releases/download/mvp/InfinityHeroesCore-1.0.0-SNAPSHOT.jar</url>
-        </repository>
 		<repository>
 		    <id>jitpack.io</id>
 		    <url>https://jitpack.io</url>
