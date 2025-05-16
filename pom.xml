@@ -36,6 +36,10 @@
         	<id>infinityheroes</id>
         	<url>https://github.com/ifheroes/core/releases/download/mvp/InfinityHeroesCore-1.0.0-SNAPSHOT.jar</url>
         </repository>
+		<repository>
+		    <id>jitpack.io</id>
+		    <url>https://jitpack.io</url>
+		</repository>
     </repositories>
 	
 
@@ -89,10 +93,10 @@
     		<version>0.10.2</version>
 		</dependency>
 		<dependency>
-			<groupId>com.infinityheroescore.api</groupId>
-			<artifactId>InfinityHeroesCore</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
-			<scope>provided</scope>
+	   		 <groupId>com.github.ifheroes</groupId>
+	    	 <artifactId>core</artifactId>
+	   		 <version>devTest-SNAPSHOT</version>
+	   		 <scope>provided</scope>
 		</dependency>
  </dependencies>
 

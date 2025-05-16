@@ -9,18 +9,21 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.akabex86.main.Main;
 
-import de.ifheroes.core.InfinityHeroesCore;
 import de.ifheroes.core.InfinityHeroesCoreAPI;
+import de.ifheroes.core.InfinityHeroesCorePlugin;
 import de.ifheroes.core.profile.HeroProfile;
 import de.ifheroes.core.profile.levelstructur.DomainKey;
 
+
 public class LoginTracker {
 
-	private static InfinityHeroesCoreAPI coreAPI = InfinityHeroesCore.getAPI();
+	
+	
+	private static InfinityHeroesCoreAPI coreAPI = InfinityHeroesCorePlugin.getAPI();
 	private static DomainKey timeKey = new DomainKey(JavaPlugin.getPlugin(Main.class), "lastlogin");
 	
 	private LoginTracker(){}
-	
+		
 	public static void setLastLogin(OfflinePlayer player, long time) {
 		coreAPI.getProfile((Player) player).ifPresent(profile -> profile.getPluginData().set(timeKey, time));
 	}
