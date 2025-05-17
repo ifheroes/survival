@@ -67,7 +67,7 @@ public class Main extends JavaPlugin {
         logger.log(Level.INFO, "Loading Features:");
         featureManager = new FeatureManager(featuresPackage);
         featureManager.initializeFeatures();
-        logger.log(Level.INFO, "All Features loaded!");
+        logger.log(Level.INFO, "\nAll Features loaded!");
         
         logger.log(Level.INFO,"Survival System aktiviert!");
     }

@@ -51,6 +51,8 @@ public class WarpManager extends FeaturePlugin{
         CommandDelWarp delwarp = new CommandDelWarp();
         getCommand("delwarp").setExecutor(delwarp);
         getCommand("delwarp").setTabCompleter(delwarp);
+        
+        loadWarps();
 	}
     
     public Location getWarp(String name){
