@@ -86,7 +86,7 @@ public class WarpManager extends FeaturePlugin{
     	
         Main.main.getLogger().log(Level.INFO,"Lade Warps...");
         Config.getKeys(WARPFILE, false).forEach(warp -> {
-        	warpsMap.put(warp,Config.getLocation(WARPFILE,warp));
+        	warpsMap.put(warp,Utils.stringToLocation(Config.getString(WARPFILE,warp)));
             Main.main.getLogger().log(Level.INFO," - Warp '%s' geladen.".formatted(warp));
         });
         Main.main.getLogger().log(Level.INFO,"Alle Warps geladen.");
