@@ -25,6 +25,9 @@ public class WarpManager extends FeaturePlugin{
     
     public WarpManager() {
     	loadWarps();
+    	System.out.println("\n\n\n\n\n\n\n\n");
+    	warpsMap.entrySet().forEach(entry -> System.out.println(entry.getKey() + " -> " + entry.getValue().toString()));
+    	System.out.println("\n\n\n\n\n\n\n\n");
     }
     
 
