@@ -94,6 +94,7 @@
 	   		 <version>devTest-SNAPSHOT</version>
 	   		 <scope>provided</scope>
 		</dependency>
+
  </dependencies>
 
 </project>

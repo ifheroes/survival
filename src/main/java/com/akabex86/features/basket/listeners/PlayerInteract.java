@@ -24,6 +24,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.akabex86.features.basket.Basket;
 import com.akabex86.features.basket.MobBasket;
 import com.akabex86.main.Main;
+
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldguard.WorldGuard;
@@ -32,6 +33,7 @@ import com.sk89q.worldguard.protection.flags.Flags;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
+
 
 public class PlayerInteract implements Listener{
 
@@ -68,6 +70,7 @@ public class PlayerInteract implements Listener{
 		if(event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
 		if(interactQueue.contains(player)) return;
 		if(!canMobSpawn(event.getClickedBlock().getLocation())) return;
+
 		
 		//TODO: Make this work with offhand aswell
 		ItemStack itemInHand = player.getInventory().getItemInMainHand();
