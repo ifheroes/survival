@@ -14,12 +14,6 @@ import com.akabex86.utils.Regex;
 
 public class CommandSetWarp implements CommandExecutor, TabCompleter {
 	
-	private WarpManager warpManager;
-	
-	public CommandSetWarp() {
-		this.warpManager = WarpManager.getInstance();
-	}
-	
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String arg2, String[] args) {
         //TODO home setzen limitieren auf 5 homes max. und location limits setzen.
@@ -34,7 +28,7 @@ public class CommandSetWarp implements CommandExecutor, TabCompleter {
                 p.sendMessage("Fehler: nur Buchstaben, Unterstriche und Zahlen sind erlaubt!");
                 return true;
             }
-            if(warpManager.setWarp(args[0].toLowerCase(),p.getLocation())){
+            if(WarpManager.setWarp(args[0].toLowerCase(),p.getLocation())){
                 //TODO teste ob methode ausgefuehrt werden kann.
                 p.sendMessage("Warp ["+args[0].toUpperCase()+"] gesetzt!");
                 return true;

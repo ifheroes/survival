@@ -13,16 +13,11 @@ import com.akabex86.features.warps.WarpManager;
 
 public class CommandWarps implements CommandExecutor, TabCompleter {
 	
-	private WarpManager warpManager;
-	
-    public CommandWarps(){
-    	this.warpManager = WarpManager.getInstance();
-    }
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String arg2, String[] args) {
     	if(sender instanceof Player player) {
     		StringBuilder textMessage = new StringBuilder("Warps: ");
-    		warpManager.getWarps().keySet().forEach(warp -> textMessage.append(String.format("%n- %s", warp)));
+    		WarpManager.getWarps().keySet().forEach(warp -> textMessage.append(String.format("%n- %s", warp)));
     		player.sendMessage(textMessage.toString());
     		return true;
     	}

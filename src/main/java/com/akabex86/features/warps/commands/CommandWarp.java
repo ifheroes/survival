@@ -13,11 +13,6 @@ import com.akabex86.features.warps.WarpManager;
 
 public class CommandWarp implements CommandExecutor, TabCompleter {
 	
-	private WarpManager warpManager;
-	
-    public CommandWarp(){
-    	this.warpManager = WarpManager.getInstance();
-    }
     
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String arg2, String[] args) {
@@ -28,11 +23,11 @@ public class CommandWarp implements CommandExecutor, TabCompleter {
                 p.sendMessage("Fehler: Bitte gib einen Namen für deinen Warp an.");
                 return true;
             }
-            if(warpManager.getWarp(args[0].toLowerCase())==null){
+            if(WarpManager.getWarp(args[0].toLowerCase())==null){
                 p.sendMessage("Fehler: Warp ["+args[0]+"] nicht gefunden.");
                 return true;
             }
-            p.teleport(warpManager.getWarp(args[0].toLowerCase()));
+            p.teleport(WarpManager.getWarp(args[0].toLowerCase()));
             p.sendMessage("Teleportiere zum Warp ["+args[0]+"] ...");
             return true;
         }
@@ -44,7 +39,7 @@ public class CommandWarp implements CommandExecutor, TabCompleter {
         List<String> TabComplete = new ArrayList<>();
         if (sender instanceof Player p){
             //TODO: Add logic to this
-            TabComplete.addAll(warpManager.getWarps().keySet());
+            TabComplete.addAll(WarpManager.getWarps().keySet());
         }
         return TabComplete;
     }

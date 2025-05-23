@@ -14,20 +14,15 @@ import com.akabex86.features.warps.WarpManager;
 
 public class CommandDelWarp implements CommandExecutor, TabCompleter {
 	
-	private WarpManager warpManager;
-	
-    public CommandDelWarp(){
-    	this.warpManager = WarpManager.getInstance();
-    }
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String arg2, String[] args) {
     	if(args.length == 0) return false;
     	if(sender instanceof Player player) {
     		String warpName = args[0].toLowerCase();
-    		Optional<Location> warp = Optional.of(warpManager.getWarp(warpName));
+    		Optional<Location> warp = Optional.of(WarpManager.getWarp(warpName));
     		
     		warp.ifPresentOrElse(warpLocation -> {
-    			warpManager.delWarp(warpName);
+    			WarpManager.delWarp(warpName);
                 player.sendMessage("Warp ["+warpName+"] erfolgreich entfernt.");
     		}, () ->  player.sendMessage("Fehler: Warp ["+warpName+"] nicht gefunden."));
     		
@@ -38,6 +33,6 @@ public class CommandDelWarp implements CommandExecutor, TabCompleter {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String s, String[] strings) {
-    	return warpManager.getWarps().keySet().stream().toList();
+    	return WarpManager.getWarps().keySet().stream().toList();
     }
 }
