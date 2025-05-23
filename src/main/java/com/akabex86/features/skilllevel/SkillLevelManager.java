@@ -1,17 +1,14 @@
 package com.akabex86.features.skilllevel;
 
-import java.util.Optional;
 import java.util.UUID;
 
 import org.bukkit.entity.Player;
 
 import com.akabex86.features.FeatureComponent;
 import com.akabex86.features.FeaturePlugin;
-import com.google.gson.Gson;
 
 import de.ifheroes.core.InfinityHeroesCoreAPI;
 import de.ifheroes.core.InfinityHeroesCorePlugin;
-import de.ifheroes.core.profile.HeroProfile;
 import de.ifheroes.core.profile.levelstructur.DomainKey;
 import de.ifheroes.core.profile.levelstructur.plugin.PluginData;
 
@@ -27,37 +24,20 @@ public class SkillLevelManager extends FeaturePlugin{
 	}
 	
 	public static Skills getSkills(Player player) {
-		Optional<HeroProfile> oProfile = api.getProfile(player);
-		if(oProfile.isEmpty()) return new Skills(player.getUniqueId());
-		
-		HeroProfile profile = oProfile.get();
-		PluginData pluginData = profile.getPluginData();
-		if(!pluginData.has(domainKey)) return new Skills(player.getUniqueId()); 
-		
-		String jsonSkillLevel = profile.getPluginData().get(domainKey, String.class).get();
-		return skillsFromString(jsonSkillLevel);
+		return api.getProfile(player)
+		        .flatMap(profile ->
+		            profile.getPluginData()
+		                .get(domainKey, String.class)
+		                .map(Skills::fromJson)
+		        )
+		        .orElse(new Skills(player.getUniqueId()));
 	}
 	
 	protected static void setSkills(UUID uuid, Skills skills) {
-		Optional<HeroProfile> oProfile = api.getProfile(uuid);
-		HeroProfile profile = oProfile.get();
-		PluginData pluginData = profile.getPluginData();
-		
-		pluginData.set(domainKey, skillLevelToString(skills));
-	}
-	
-	/*
-	 * Using GSON to convert @link{SkillLevel} class to String
-	 */
-	protected static String skillLevelToString(Skills skilllevel) {
-		return new Gson().toJson(skilllevel);
-	}
-	
-	/*
-	 * Using GSON to convert a String to @link{SkillLevel}
-	 */
-	protected static Skills skillsFromString(String skilllevelstring) {
-		return new Gson().fromJson(skilllevelstring, Skills.class);
+		api.getProfile(uuid).ifPresent(profile -> {
+	        PluginData data = profile.getPluginData();
+	        data.set(domainKey, skills.toJson());
+	    });
 	}
 	
 }
