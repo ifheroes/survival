@@ -27,7 +27,7 @@ public class CommandSpawn implements CommandExecutor, TabCompleter {
     			player.sendMessage("Teleportiere zum Spawn ...");
     		}, () ->  player.sendMessage("Fehler: Spawnpunkt nicht gefunden."));
     	}
-        return false;
+        return true;
     }
 
     @Override
