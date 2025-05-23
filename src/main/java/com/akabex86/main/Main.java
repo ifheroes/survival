@@ -121,7 +121,7 @@ public class Main extends JavaPlugin {
         getCommand("delhome").setTabCompleter(delhome);
 
         //WARP COMMANDS
-        CommandSpawn spawn = new CommandSpawn(this);
+        CommandSpawn spawn = new CommandSpawn();
         getCommand("spawn").setExecutor(spawn);
         getCommand("spawn").setTabCompleter(spawn);
 

@@ -12,21 +12,15 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
 import com.akabex86.features.warps.WarpManager;
-import com.akabex86.main.Main;
 
 public class CommandSpawn implements CommandExecutor, TabCompleter {
 	
 	private static final String SPAWNKEY = "spawn";
 	
-	private WarpManager warpManager;
-	
-    public CommandSpawn(Main main){
-    	this.warpManager = WarpManager.getInstance();
-    }
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String arg2, String[] args) {
     	if(sender instanceof Player player) {
-    		Optional<Location> spawnLocation = Optional.ofNullable(warpManager.getWarp(SPAWNKEY));
+    		Optional<Location> spawnLocation = Optional.ofNullable(WarpManager.getWarp(SPAWNKEY));
     		
     		spawnLocation.ifPresentOrElse(location -> {
     			player.teleport(location);
