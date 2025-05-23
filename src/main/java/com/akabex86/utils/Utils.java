@@ -173,7 +173,6 @@ public class Utils {
                 loc1.getBlockZ() == loc2.getBlockZ();
     }
     public static Location stringToLocation(String str){
-    	System.out.println("LocationString: "+str);
         String slocs[] = str.split("\\,");
         String X = slocs[0];
         String Y = slocs[1];
