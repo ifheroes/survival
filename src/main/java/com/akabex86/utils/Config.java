@@ -125,8 +125,9 @@ public class Config {
         }
     }
     public static Location getLocation(String fileName,String key){
-
+    	
         if(Config.getString(fileName,key)!=null){
+        	
             return Utils.stringToLocation(Config.getString(fileName,key));
         }else{
             return null;

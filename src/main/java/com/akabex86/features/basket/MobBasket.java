@@ -18,7 +18,8 @@ import com.akabex86.features.FeaturePlugin;
 import com.akabex86.features.basket.listeners.PlayerInteract;
 import com.akabex86.main.Main;
 
-@FeatureComponent(owner = "I_Dev", version = "0.1")
+
+@FeatureComponent(owner = "I_Dev", version = "1.0")
 public class MobBasket extends FeaturePlugin{
 	
 	protected static final NamespacedKey basketAttribute = new NamespacedKey(JavaPlugin.getPlugin(Main.class), "entity");

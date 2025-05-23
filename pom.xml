@@ -9,8 +9,8 @@
     <version>1.1-SNAPSHOT</version>
 
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -32,7 +32,12 @@
             <id>sk89q-repo</id>
             <url>https://maven.enginehub.org/repo/</url>
         </repository>
+		<repository>
+		    <id>jitpack.io</id>
+		    <url>https://jitpack.io</url>
+		</repository>
     </repositories>
+	
 
     <build>
         <plugins>
@@ -82,7 +87,14 @@
    			<groupId>org.reflections</groupId>
    			<artifactId>reflections</artifactId>
     		<version>0.10.2</version>
-		</dependency>   
+		</dependency>
+		<dependency>
+	   		 <groupId>com.github.ifheroes</groupId>
+	    	 <artifactId>core</artifactId>
+	   		 <version>devTest-SNAPSHOT</version>
+	   		 <scope>provided</scope>
+		</dependency>
+
  </dependencies>
 
 </project>

@@ -25,6 +25,16 @@ import com.akabex86.features.basket.Basket;
 import com.akabex86.features.basket.MobBasket;
 import com.akabex86.main.Main;
 
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import com.sk89q.worldedit.math.BlockVector3;
+import com.sk89q.worldguard.WorldGuard;
+import com.sk89q.worldguard.protection.ApplicableRegionSet;
+import com.sk89q.worldguard.protection.flags.Flags;
+import com.sk89q.worldguard.protection.managers.RegionManager;
+import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import com.sk89q.worldguard.protection.regions.RegionContainer;
+
+
 public class PlayerInteract implements Listener{
 
 
@@ -59,6 +69,8 @@ public class PlayerInteract implements Listener{
 		
 		if(event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
 		if(interactQueue.contains(player)) return;
+		if(!canMobSpawn(event.getClickedBlock().getLocation())) return;
+
 		
 		//TODO: Make this work with offhand aswell
 		ItemStack itemInHand = player.getInventory().getItemInMainHand();
@@ -87,4 +99,28 @@ public class PlayerInteract implements Listener{
 		interactQueue.add(player);
 		Bukkit.getScheduler().runTaskLater(JavaPlugin.getPlugin(Main.class), () -> interactQueue.remove(player), ticks);
 	}
+	
+	private boolean canMobSpawn(Location location) {
+        WorldGuard worldGuard = WorldGuard.getInstance();
+        RegionContainer regionContainer = worldGuard.getPlatform().getRegionContainer();
+
+        if (location.getWorld() == null) {
+            return false;
+        }
+
+        RegionManager regionManager = regionContainer.get(BukkitAdapter.adapt(location.getWorld()));
+        if (regionManager == null) {
+            return true;
+        }
+
+        BlockVector3 vector = BlockVector3.at(location.getBlockX(), location.getBlockY(), location.getBlockZ());
+        ApplicableRegionSet regions = regionManager.getApplicableRegions(vector);
+
+        for (ProtectedRegion region : regions) {
+            if (region.getFlag(Flags.MOB_SPAWNING) != null) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

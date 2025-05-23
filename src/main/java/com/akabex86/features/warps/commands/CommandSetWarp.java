@@ -1,22 +1,19 @@
-package com.akabex86.commands;
+package com.akabex86.features.warps.commands;
 
-import com.akabex86.main.Main;
-import com.akabex86.utils.Home;
-import com.akabex86.utils.Regex;
-import com.akabex86.utils.Warp;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.akabex86.features.warps.WarpManager;
+import com.akabex86.utils.Regex;
 
-public class CommandSetwarp implements CommandExecutor, TabCompleter {
-    public CommandSetwarp(Main main){
-
-    }
+public class CommandSetWarp implements CommandExecutor, TabCompleter {
+	
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String arg2, String[] args) {
         //TODO home setzen limitieren auf 5 homes max. und location limits setzen.
@@ -31,7 +28,7 @@ public class CommandSetwarp implements CommandExecutor, TabCompleter {
                 p.sendMessage("Fehler: nur Buchstaben, Unterstriche und Zahlen sind erlaubt!");
                 return true;
             }
-            if( Warp.setWarp(args[0].toLowerCase(),p.getLocation())){
+            if(WarpManager.setWarp(args[0].toLowerCase(),p.getLocation())){
                 //TODO teste ob methode ausgefuehrt werden kann.
                 p.sendMessage("Warp ["+args[0].toUpperCase()+"] gesetzt!");
                 return true;
