@@ -1,6 +1,5 @@
 package com.akabex86.features.skilllevel.listeners;
 
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -25,7 +24,9 @@ public class CombatSkillListener implements Listener{
 		long xp = combatSkill.getXP();
 		xp += 10;
 		combatSkill.setXP(xp);
-		player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent("§6Combat: §a+%s§6xp".formatted(xp)));
+		player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent("§6Combat: §a%s§6xp".formatted(xp)));
+		
+		SkillManager.updateSkills(null, skillTree);
 		
 	}
 }
