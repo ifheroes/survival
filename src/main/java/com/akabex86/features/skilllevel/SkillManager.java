@@ -2,10 +2,12 @@ package com.akabex86.features.skilllevel;
 
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import com.akabex86.features.FeatureComponent;
 import com.akabex86.features.FeaturePlugin;
+import com.akabex86.features.skilllevel.listeners.CombatSkillListener;
 
 import de.ifheroes.core.InfinityHeroesCoreAPI;
 import de.ifheroes.core.InfinityHeroesCorePlugin;
@@ -13,7 +15,7 @@ import de.ifheroes.core.profile.levelstructur.DomainKey;
 import de.ifheroes.core.profile.levelstructur.plugin.PluginData;
 
 @FeatureComponent(owner = "I_Dev", version = "1.0")
-public class SkillLevelManager extends FeaturePlugin{
+public class SkillManager extends FeaturePlugin{
 
 	private static DomainKey domainKey;
 	private static InfinityHeroesCoreAPI api = InfinityHeroesCorePlugin.getAPI();
@@ -21,8 +23,14 @@ public class SkillLevelManager extends FeaturePlugin{
 	@Override
 	public void onLoad() {
 		if(domainKey == null) domainKey = new DomainKey(getPlugin(), "skillLevel");
+		
+		registerEvents();
 	}
 	
+	private void registerEvents() {
+		Bukkit.getPluginManager().registerEvents(new CombatSkillListener(), getPlugin());
+	}
+
 	public static Skills getSkills(Player player) {
 		return api.getProfile(player)
 		        .flatMap(profile ->
@@ -33,7 +41,7 @@ public class SkillLevelManager extends FeaturePlugin{
 		        .orElse(new Skills(player.getUniqueId()));
 	}
 	
-	protected static void setSkills(UUID uuid, Skills skills) {
+	public static void updateSkills(UUID uuid, Skills skills) {
 		api.getProfile(uuid).ifPresent(profile -> {
 	        PluginData data = profile.getPluginData();
 	        data.set(domainKey, skills.toJson());
