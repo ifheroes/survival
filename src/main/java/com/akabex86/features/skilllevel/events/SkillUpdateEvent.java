@@ -15,13 +15,14 @@ import com.akabex86.features.skilllevel.SkillCategory;
 public class SkillUpdateEvent extends Event implements Cancellable{
 
     private static final HandlerList HANDLERS = new HandlerList();
-
+    
     private final Player player;
     private final int originalLevel;
     private final long originalXP;
     private int targetLevel;
     private long targetXP;
     private SkillCategory skillCategory;
+    private boolean cancelled;
     
     public SkillUpdateEvent(Player player, SkillCategory category, int originalLevel, int targetLevel, long originalXP, long targetXP) {
         this.player = player;
@@ -29,6 +30,7 @@ public class SkillUpdateEvent extends Event implements Cancellable{
         this.targetLevel = targetLevel;
         this.originalXP = originalXP;
         this.targetXP = targetXP;
+        this.cancelled = false;
     }
 
     public Player getPlayer() {
@@ -70,13 +72,12 @@ public class SkillUpdateEvent extends Event implements Cancellable{
 
 	@Override
 	public boolean isCancelled() {
-		// TODO Auto-generated method stub
-		return false;
+		return this.cancelled;
 	}
 
 	@Override
 	public void setCancelled(boolean cancel) {
-		// TODO Auto-generated method stub
+		this.cancelled = cancel;
 		
 	}
 }
