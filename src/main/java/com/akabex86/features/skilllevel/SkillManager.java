@@ -1,5 +1,7 @@
 package com.akabex86.features.skilllevel;
 
+import java.util.Collections;
+import java.util.EnumSet;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -41,7 +43,25 @@ public class SkillManager extends FeaturePlugin{
 	}
 
 	public static PlayerSkills getSkills(Player player) {
-		return api.getProfile(player)
+		PlayerSkills skills = new PlayerSkills();
+		EnumSet.allOf(SkillCategory.class).stream().forEach(consumer -> {
+			DomainKey keyLevel = new DomainKey(domainKey.getDomain(), "skillLevel.%s.Level".formatted(consumer.toString()));
+        	DomainKey keyXP = new DomainKey(domainKey.getDomain(), "skillLevel.%s.Xp".formatted(consumer.toString()));
+        	
+        	Skill skill = skills.get(consumer);
+        	
+        	PluginData pluginData = api.getProfile(player).map(profile -> profile.getPluginData()).get();
+        	
+        	
+        	
+        	skill.setLevel(pluginData.get(keyLevel, Integer.class).orElse(1));
+        	skill.setXp(pluginData.get(keyXP, Integer.class).orElse(0));
+			
+		});
+		
+		return skills;
+		
+	/*	return api.getProfile(player)
 		        .flatMap(profile -> {
 		        	String s = profile.getPluginData()
 	                .get(domainKey, String.class).get();
@@ -52,13 +72,22 @@ public class SkillManager extends FeaturePlugin{
 		                .get(domainKey, String.class)
 		                .map(PlayerSkills::fromJson);}
 		        )
-		        .orElse(new PlayerSkills());
+		        .orElse(new PlayerSkills()); */
 	}
 	
 	public static void updatePlayerSkills(UUID uuid, PlayerSkills skills) {
 		api.getProfile(uuid).ifPresent(profile -> {
 	        PluginData data = profile.getPluginData();
-	        data.set(domainKey, skills.toJson());
+	        
+	        EnumSet.allOf(SkillCategory.class).stream().forEach(consumer -> {
+	        	DomainKey keyLevel = new DomainKey(domainKey.getDomain(), "skillLevel.%s.Level".formatted(consumer.toString()));
+	        	DomainKey keyXP = new DomainKey(domainKey.getDomain(), "skillLevel.%s.Xp".formatted(consumer.toString()));
+	        	
+	        	data.set(keyXP, skills.get(consumer).getXp());
+	        	data.set(keyLevel, skills.get(consumer).getLevel());
+	        });
+	        
+	        // data.set(domainKey, skills.toJson());
 	    });
 	}
 	
