@@ -52,10 +52,11 @@ public class SkillManager extends FeaturePlugin{
         	
         	PluginData pluginData = api.getProfile(player).map(profile -> profile.getPluginData()).get();
         	
+        	double level = pluginData.get(keyLevel, Integer.class).orElse(1);
+        	double xp = pluginData.get(keyXP, Integer.class).orElse(0);
         	
-        	
-        	skill.setLevel(pluginData.get(keyLevel, Integer.class).orElse(1));
-        	skill.setXp(pluginData.get(keyXP, Integer.class).orElse(0));
+        	skill.setLevel((int) level);
+        	skill.setXp((int) xp);
 			
 		});
 		
