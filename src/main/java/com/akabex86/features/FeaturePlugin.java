@@ -1,5 +1,6 @@
 package com.akabex86.features;
 
+
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -13,7 +14,7 @@ public abstract class FeaturePlugin implements Feature{
 	public Plugin getPlugin() {
 		return this.plugin;
 	}
-	
+  
 	public PluginCommand getCommand(String command) {
 		return plugin.getServer().getPluginCommand(command);
 	}
