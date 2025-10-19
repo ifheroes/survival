@@ -14,7 +14,7 @@ import de.ifheroes.core.InfinityHeroesCorePlugin;
 import de.ifheroes.core.profile.levelstructur.DomainKey;
 import de.ifheroes.core.profile.levelstructur.plugin.PluginData;
 
-@FeatureComponent(owner = "I_Dev", version = "1.0")
+@FeatureComponent(owner = "I_Dev", version = "1.1")
 public class SkillManager extends FeaturePlugin{
 
 	private static DomainKey domainKey;
@@ -31,17 +31,17 @@ public class SkillManager extends FeaturePlugin{
 		Bukkit.getPluginManager().registerEvents(new CombatSkillListener(), getPlugin());
 	}
 
-	public static Skills getSkills(Player player) {
+	public static PlayerSkills getSkills(Player player) {
 		return api.getProfile(player)
 		        .flatMap(profile ->
 		            profile.getPluginData()
 		                .get(domainKey, String.class)
-		                .map(Skills::fromJson)
+		                .map(PlayerSkills::fromJson)
 		        )
-		        .orElse(new Skills(player.getUniqueId()));
+		        .orElse(new PlayerSkills());
 	}
 	
-	public static void updateSkills(UUID uuid, Skills skills) {
+	public static void updatePlayerSkills(UUID uuid, PlayerSkills skills) {
 		api.getProfile(uuid).ifPresent(profile -> {
 	        PluginData data = profile.getPluginData();
 	        data.set(domainKey, skills.toJson());

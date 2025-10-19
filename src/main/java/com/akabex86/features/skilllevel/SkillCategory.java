@@ -1,27 +1,28 @@
 package com.akabex86.features.skilllevel;
 
-import com.akabex86.features.skilllevel.skills.SkillAgriculture;
-import com.akabex86.features.skilllevel.skills.SkillCollector;
-import com.akabex86.features.skilllevel.skills.SkillCombat;
-import com.akabex86.features.skilllevel.skills.SkillMining;
+import net.md_5.bungee.api.ChatColor;
 
 public enum SkillCategory {
 
-	AGRICULTURE("Agriculture", SkillAgriculture.class), MINING("Mining", SkillMining.class), COMBAT("Combat", SkillCombat.class), COLLECTOR("Collector", SkillCollector.class);
+	AGRICULTURE("Agriculture", ChatColor.of("#1CE764")), 
+	MINING("Mining", ChatColor.of("#FF0000")), 
+	COMBAT("Combat", ChatColor.of("#E41D3B")), 
+	COLLECTOR("Collector", ChatColor.of("#FF0000"));
 	
 	final String name;
-	final Class<? extends ISkill> skill;
+	final ChatColor color;
 	
-	SkillCategory(String name, Class<? extends ISkill> skill) {
+	SkillCategory(String name, ChatColor color) {
 		this.name = name;
-		this.skill = skill;
+		this.color = color;
 	}
 	
 	public String getName() {
 		return this.name;
 	}
 	
-	public Class<? extends ISkill> getSkillClass() {
-		return this.skill;
+	public ChatColor getColor() {
+		return color;
 	}
+	
 }

@@ -5,28 +5,28 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 
+import com.akabex86.features.skilllevel.PlayerSkills;
+import com.akabex86.features.skilllevel.Skill;
 import com.akabex86.features.skilllevel.SkillCategory;
 import com.akabex86.features.skilllevel.SkillManager;
-import com.akabex86.features.skilllevel.Skills;
-import com.akabex86.features.skilllevel.skills.SkillCombat;
+import com.akabex86.features.skilllevel.SkillUpdateResult;
+import com.akabex86.features.skilllevel.SkillUpdateVisualizier;
 
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
-
-public class CombatSkillListener implements Listener{
+public class CombatSkillListener extends SkillUpdateVisualizier implements Listener{
 
 	@EventHandler
 	public void killEntity(EntityDeathEvent event) {
 		if(!(event.getDamageSource().getCausingEntity() instanceof Player player)) return;
 		
-		Skills skillTree = SkillManager.getSkills(player);
-		SkillCombat combatSkill = (SkillCombat) skillTree.get(SkillCategory.COMBAT);
-		long xp = combatSkill.getXP();
-		xp += 10;
-		combatSkill.setXP(xp);
-		player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent("§6Combat: §a%s§6xp".formatted(xp)));
+		PlayerSkills skillTree = SkillManager.getSkills(player);
+		Skill combatSkill = skillTree.get(SkillCategory.COMBAT);
+		SkillUpdateResult result = combatSkill.addXp(10);
 		
-		SkillManager.updateSkills(null, skillTree);
-		
+		visualizeSkillUpdate(player, result, SkillCategory.COMBAT);
+		SkillManager.updatePlayerSkills(player.getUniqueId(), skillTree);	
 	}
+	
+	
+	
+	
 }
