@@ -40,10 +40,15 @@ public class SkillManager extends FeaturePlugin{
 
 	public static PlayerSkills getSkills(Player player) {
 		return api.getProfile(player)
-		        .flatMap(profile ->
-		            profile.getPluginData()
+		        .flatMap(profile -> {
+		        	String s = profile.getPluginData()
+	                .get(domainKey, String.class).get();
+		        	
+		        	System.out.println(s);
+		        	
+		            return profile.getPluginData()
 		                .get(domainKey, String.class)
-		                .map(PlayerSkills::fromJson)
+		                .map(PlayerSkills::fromJson);}
 		        )
 		        .orElse(new PlayerSkills());
 	}
