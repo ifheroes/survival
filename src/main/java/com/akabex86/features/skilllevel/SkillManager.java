@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 
 import com.akabex86.features.FeatureComponent;
 import com.akabex86.features.FeaturePlugin;
+import com.akabex86.features.skilllevel.listeners.TestCommand;
 import com.akabex86.features.skilllevel.listeners.Combat.CombatSkillXpListener;
 import com.akabex86.features.skilllevel.listeners.Combat.DamageEntityListener;
 import com.akabex86.features.skilllevel.listeners.Mining.BreakBlockListener;
@@ -28,6 +29,7 @@ public class SkillManager extends FeaturePlugin{
 		if(domainKey == null) domainKey = new DomainKey(getPlugin(), "skillLevel");
 		
 		registerEvents();
+		getCommand("testStringPost").setExecutor(new TestCommand());
 	}
 	
 	private void registerEvents() {
