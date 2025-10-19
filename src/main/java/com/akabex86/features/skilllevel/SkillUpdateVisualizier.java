@@ -19,7 +19,14 @@ public abstract class SkillUpdateVisualizier {
 		int newXp = result.newXp();
 		int newLevel = result.newLevel();
 		
-		TextComponent message = new TextComponent(String.format(Locale.GERMANY ,"%s %d - %5,d/%5,dXP", category.getName(), newLevel, oldXp, newXp));
+		TextComponent message = new TextComponent(String.format(
+		        Locale.GERMANY,
+		        "%s %d - %,d/%,d XP",
+		        category.getName(),
+		        newLevel,
+		        oldXp,
+		        newXp
+		    ));
 		message.setColor(category.getColor());
 		return message;
 	}
