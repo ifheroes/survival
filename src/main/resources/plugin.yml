@@ -4,6 +4,7 @@ author: AkabeX86
 main: com.akabex86.main.Main
 api-version: 1.21
 depend: [ProtocolLib, InfinityHeroes-Core, Multiverse-Core]
+
 softdepend: [PlaceholderAPI,WorldGuard]
 
 commands:
