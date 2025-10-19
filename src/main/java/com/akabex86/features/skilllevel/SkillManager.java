@@ -7,7 +7,10 @@ import org.bukkit.entity.Player;
 
 import com.akabex86.features.FeatureComponent;
 import com.akabex86.features.FeaturePlugin;
-import com.akabex86.features.skilllevel.listeners.CombatSkillListener;
+import com.akabex86.features.skilllevel.listeners.Combat.CombatSkillXpListener;
+import com.akabex86.features.skilllevel.listeners.Combat.DamageEntityListener;
+import com.akabex86.features.skilllevel.listeners.Mining.BreakBlockListener;
+import com.akabex86.features.skilllevel.listeners.Mining.MiningSkillXpListener;
 
 import de.ifheroes.core.InfinityHeroesCoreAPI;
 import de.ifheroes.core.InfinityHeroesCorePlugin;
@@ -28,7 +31,11 @@ public class SkillManager extends FeaturePlugin{
 	}
 	
 	private void registerEvents() {
-		Bukkit.getPluginManager().registerEvents(new CombatSkillListener(), getPlugin());
+		Bukkit.getPluginManager().registerEvents(new CombatSkillXpListener(), getPlugin());
+		Bukkit.getPluginManager().registerEvents(new DamageEntityListener(), getPlugin());
+		
+		Bukkit.getPluginManager().registerEvents(new MiningSkillXpListener(), getPlugin());
+		Bukkit.getPluginManager().registerEvents(new BreakBlockListener(), getPlugin());
 	}
 
 	public static PlayerSkills getSkills(Player player) {

@@ -5,7 +5,7 @@ import net.md_5.bungee.api.ChatColor;
 public enum SkillCategory {
 
 	AGRICULTURE("Agriculture", ChatColor.of("#1CE764")), 
-	MINING("Mining", ChatColor.of("#FF0000")), 
+	MINING("Mining", ChatColor.of("#E4AE4C")), 
 	COMBAT("Combat", ChatColor.of("#E41D3B")), 
 	COLLECTOR("Collector", ChatColor.of("#FF0000"));
 	
