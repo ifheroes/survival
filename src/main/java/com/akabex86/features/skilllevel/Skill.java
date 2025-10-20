@@ -39,7 +39,7 @@ public class Skill {
 	    int oldLevel = level;
 	    xp += amount;
 	    if(level < MAXLEVEL) checkLevelUp();
-	    return new SkillUpdateResult(oldLevel, level, oldXp, getXpForNextLevel());
+	    return new SkillUpdateResult(oldLevel, level, oldXp, xp, getXpForNextLevel());
 	}
 	
 	private void checkLevelUp() {

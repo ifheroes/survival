@@ -2,6 +2,7 @@ package com.akabex86.features.skilllevel.listeners.Mining;
 
 import java.util.Collection;
 
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -24,9 +25,18 @@ public class BreakBlockListener implements Listener{
 		
 		int level = mining.getLevel();
 		
-		Block block = event.getBlock();
-        Collection<ItemStack> drops = block.getDrops(event.getPlayer().getInventory().getItemInMainHand());
+
+        event.setDropItems(false);
 		
-        drops.forEach(item -> item.setAmount(item.getAmount()*level));
+		Block block = event.getBlock();
+		World world = block.getLocation().getWorld();
+        Collection<ItemStack> drops = block.getDrops(event.getPlayer().getInventory().getItemInMainHand());
+        drops.forEach(item -> {
+        	item.setAmount(item.getAmount()*level);
+        	world.dropItemNaturally(block.getLocation().add(0.5, 0.5, 0.5), item);
+        });
+        
+        
+        
 	}
 }

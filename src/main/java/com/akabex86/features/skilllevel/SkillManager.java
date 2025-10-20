@@ -1,7 +1,5 @@
 package com.akabex86.features.skilllevel;
 
-import java.util.Collections;
-import java.util.EnumSet;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -14,6 +12,7 @@ import com.akabex86.features.skilllevel.listeners.Combat.CombatSkillXpListener;
 import com.akabex86.features.skilllevel.listeners.Combat.DamageEntityListener;
 import com.akabex86.features.skilllevel.listeners.Mining.BreakBlockListener;
 import com.akabex86.features.skilllevel.listeners.Mining.MiningSkillXpListener;
+import com.google.gson.Gson;
 
 import de.ifheroes.core.InfinityHeroesCoreAPI;
 import de.ifheroes.core.InfinityHeroesCorePlugin;
@@ -43,7 +42,7 @@ public class SkillManager extends FeaturePlugin{
 	}
 
 	public static PlayerSkills getSkills(Player player) {
-		PlayerSkills skills = new PlayerSkills();
+	/*	PlayerSkills skills = new PlayerSkills();
 		EnumSet.allOf(SkillCategory.class).stream().forEach(consumer -> {
 			DomainKey keyLevel = new DomainKey(domainKey.getDomain(), "skillLevel.%s.Level".formatted(consumer.toString()));
         	DomainKey keyXP = new DomainKey(domainKey.getDomain(), "skillLevel.%s.Xp".formatted(consumer.toString()));
@@ -55,40 +54,48 @@ public class SkillManager extends FeaturePlugin{
         	double level = pluginData.get(keyLevel, Double.class).orElse(1d);
         	double xp = pluginData.get(keyXP, Double.class).orElse(0d);
         	
+        	
+        	
         	skill.setLevel((int) level);
         	skill.setXp((int) xp);
 			
 		});
 		
-		return skills;
+		return skills; */
 		
-	/*	return api.getProfile(player)
-		        .flatMap(profile -> {
-		        	String s = profile.getPluginData()
-	                .get(domainKey, String.class).get();
-		        	
-		        	System.out.println(s);
-		        	
-		            return profile.getPluginData()
-		                .get(domainKey, String.class)
-		                .map(PlayerSkills::fromJson);}
-		        )
-		        .orElse(new PlayerSkills()); */
+		return api.getProfile(player)
+			    .flatMap(profile -> {
+			        return profile.getPluginData()
+			            .get(domainKey, Object.class)
+			            .map(obj -> {
+			                if (obj instanceof PlayerSkills skills) {
+			                    return skills;
+			                } else {
+			                    Gson gson = new Gson();
+			                    return gson.fromJson(
+			                        gson.toJson(obj), 
+			                        PlayerSkills.class
+			                    );
+			                }
+			            });
+			    })
+			    .orElse(new PlayerSkills());
 	}
 	
 	public static void updatePlayerSkills(UUID uuid, PlayerSkills skills) {
 		api.getProfile(uuid).ifPresent(profile -> {
 	        PluginData data = profile.getPluginData();
 	        
-	        EnumSet.allOf(SkillCategory.class).stream().forEach(consumer -> {
+	      /*  EnumSet.allOf(SkillCategory.class).stream().forEach(consumer -> {
 	        	DomainKey keyLevel = new DomainKey(domainKey.getDomain(), "skillLevel.%s.Level".formatted(consumer.toString()));
 	        	DomainKey keyXP = new DomainKey(domainKey.getDomain(), "skillLevel.%s.Xp".formatted(consumer.toString()));
 	        	
 	        	data.set(keyXP, skills.get(consumer).getXp());
 	        	data.set(keyLevel, skills.get(consumer).getLevel());
-	        });
+	        }); */
 	        
-	        // data.set(domainKey, skills.toJson());
+	      
+            data.set(domainKey, skills);
 	    });
 	}
 	
