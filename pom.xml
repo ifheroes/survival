@@ -71,12 +71,12 @@
             <version>2.11.5</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>com.comphenix.protocol</groupId>
-            <artifactId>ProtocolLib</artifactId>
-            <version>5.1.0</version>
-            <scope>provided</scope>
-        </dependency>
+  		<dependency>
+   			<groupId>net.dmulloy2</groupId>
+   			<artifactId>ProtocolLib</artifactId>
+   			<version>5.4.0</version>
+ 			<scope>provided</scope>
+  		</dependency>
         <dependency>
             <groupId>com.sk89q.worldguard</groupId>
             <artifactId>worldguard-bukkit</artifactId>

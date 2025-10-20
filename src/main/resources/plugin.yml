@@ -112,3 +112,4 @@ commands:
     usage: /bc <message>
     description: Survival Broadcast System.
   checkLastLogin:
+  testStringPost:
