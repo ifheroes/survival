@@ -1,3 +1,1 @@
-Infinity Heroes.de Survivalsystem
-
-Build Anweisungen sowie Releases folgen...
+ifheroes.net Survivalsystem
